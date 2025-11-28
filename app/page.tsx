@@ -1,12 +1,13 @@
-'use client';
-
-import { useSession } from '@/lib/auth-client';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-export default function Home() {
-  const { data: session } = useSession();
+export default async function Home() {
+  const session = await auth.api.getSession({ headers: await headers() });
 
-  if (!session) redirect('/sign-in');
+  if (!session) {
+    redirect('/sign-in');
+  }
 
   return (
     <div>

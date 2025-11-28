@@ -1,9 +1,12 @@
 'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { FaGoogle, FaGithub } from 'react-icons/fa';
+
 import * as z from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FaGoogle, FaGithub } from 'react-icons/fa';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -19,9 +22,10 @@ import {
   FieldError,
   FieldGroup,
   FieldLabel,
-  FieldSeparator,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+
+import { signIn } from '@/lib/auth-client';
 
 const formSchema = z.object({
   email: z.email(),
@@ -32,6 +36,9 @@ const formSchema = z.object({
 });
 
 const Page = () => {
+  const [isPending, setIsPending] = useState(false);
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,8 +47,22 @@ const Page = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsPending(true);
+    try {
+      await signIn.email({ email: data.email, password: data.password });
+      setIsPending(false);
+      router.push('/dashboard');
+    } catch (err) {
+      const msg =
+        err instanceof Error ? String(err.message ?? '') : String(err ?? '');
+
+      if (/email/i.test(msg) && !/password/i.test(msg))
+        form.setError('email', { message: 'Invalid email' });
+      else if (/password/i.test(msg))
+        form.setError('password', { message: 'Invalid password' });
+      else form.setError('password', { message: 'Invalid email or password' });
+    }
   };
 
   return (
@@ -119,11 +140,23 @@ const Page = () => {
                 </div>
                 <FieldGroup>
                   <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                    <Button>
+                    <Button
+                      disabled={isPending}
+                      onClick={async () =>
+                        await signIn.social({ provider: 'google' })
+                      }
+                      type="button"
+                    >
                       <FaGoogle className="mr-1 sm:mr-2 text-xs sm:text-sm" />
                       <span className="truncate">Google</span>
                     </Button>
-                    <Button>
+                    <Button
+                      disabled={isPending}
+                      onClick={async () =>
+                        await signIn.social({ provider: 'github' })
+                      }
+                      type="button"
+                    >
                       <FaGithub className="mr-1 sm:mr-2 text-xs sm:text-sm" />
                       <span className="truncate">Github</span>
                     </Button>
@@ -134,7 +167,7 @@ const Page = () => {
           </CardContent>
         </Card>
       </div>
-      <div className="w-3/5">Right</div>
+      <div className="w-3/5">right</div>
     </>
   );
 };
