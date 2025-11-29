@@ -1,0 +1,31 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background (optional, remove if you want it transparent) -->
+  <rect width="256" height="256" fill="none"/>
+
+  <!-- Envelope body -->
+  <rect x="32" y="80" width="192" height="120" rx="20" ry="20" fill="#1D4ED8"/>
+  <!-- Envelope flap lines -->
+  <path d="M40 88 L128 152 L216 88" fill="none" stroke="#0F172A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M40 192 L104 132" fill="none" stroke="#0F172A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M216 192 L152 132" fill="none" stroke="#0F172A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Sun inside envelope -->
+  <circle cx="128" cy="104" r="34" fill="url(#sunGradient)"/>
+
+  <!-- Sun rays -->
+  <g stroke="#F97316" stroke-width="6" stroke-linecap="round">
+    <line x1="128" y1="38" x2="128" y2="64"/>
+    <line x1="92"  y1="46" x2="106" y2="68"/>
+    <line x1="164" y1="46" x2="150" y2="68"/>
+    <line x1="78"  y1="72" x2="100" y2="84"/>
+    <line x1="178" y1="72" x2="156" y2="84"/>
+  </g>
+
+  <!-- Gradient definition for sun -->
+  <defs>
+    <linearGradient id="sunGradient" x1="128" y1="70" x2="128" y2="138" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FACC15"/>
+      <stop offset="100%" stop-color="#F97316"/>
+    </linearGradient>
+  </defs>
+</svg>

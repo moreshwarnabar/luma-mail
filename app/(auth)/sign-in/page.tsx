@@ -11,7 +11,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -26,6 +25,8 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { signIn } from '@/lib/auth-client';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const formSchema = z.object({
   email: z.email(),
@@ -70,11 +71,18 @@ const Page = () => {
       <div className="w-2/5 px-8 flex flex-col justify-center items-center">
         <Card className="w-full max-w-sm">
           <CardHeader>
-            <CardTitle>Welcome back</CardTitle>
+            <CardTitle>
+              <div className="flex items-center gap-2">
+                <Image
+                  src="/luma-mail-logo.svg"
+                  alt="Luma Mail Logo"
+                  width={48}
+                  height={48}
+                />
+                <h1 className="text-lg">Welcome</h1>
+              </div>
+            </CardTitle>
             <CardDescription>Sign in to your account</CardDescription>
-            <CardAction>
-              <Button variant="link">Sign Up</Button>
-            </CardAction>
           </CardHeader>
           <CardContent>
             <form id="sign-in-form" onSubmit={form.handleSubmit(onSubmit)}>
@@ -162,6 +170,15 @@ const Page = () => {
                     </Button>
                   </div>
                 </FieldGroup>
+                <div className="text-center text-sm text-gray-600">
+                  Don&apos;t have an account?{' '}
+                  <Link
+                    href="/sign-up"
+                    className="text-blue-700 font-medium underline-offset-4 hover:underline hover:text-blue-500"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
               </div>
             </form>
           </CardContent>
