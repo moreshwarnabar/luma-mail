@@ -1,8 +1,8 @@
 import { headers } from 'next/headers';
 
 import { auth } from '@/lib/auth';
-import SignIn from '@/modules/auth/view/sign-in';
 import { redirect } from 'next/navigation';
+import SignUp from '@/modules/auth/view/sign-up';
 
 const Page = async () => {
   const session = await auth.api.getSession({
@@ -11,7 +11,7 @@ const Page = async () => {
 
   if (!!session) redirect('/dashboard');
 
-  return <SignIn />;
+  return <SignUp />;
 };
 
 export default Page;
