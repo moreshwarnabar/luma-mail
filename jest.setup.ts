@@ -29,3 +29,14 @@ jest.mock('better-auth', () => ({
 jest.mock('better-auth/adapters/drizzle', () => ({
   drizzleAdapter: jest.fn(),
 }));
+
+// Mock getSession api
+jest.mock('@/lib/auth', () => ({
+  auth: {
+    api: {
+      getSession: jest.fn(() =>
+        Promise.resolve({ user: { id: '1', name: 'Test User' } })
+      ),
+    },
+  },
+}));
