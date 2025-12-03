@@ -51,8 +51,10 @@ const SignUp = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
   });
 
@@ -110,7 +112,7 @@ const SignUp = () => {
                         </FieldLabel>
                         <Input
                           {...field}
-                          id="sign-up-form-email"
+                          id="sign-up-form-name"
                           aria-invalid={fieldState.invalid}
                           placeholder="John Doe"
                           autoComplete="off"
@@ -126,12 +128,12 @@ const SignUp = () => {
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor="sign-in-form-email">
+                        <FieldLabel htmlFor="sign-up-form-email">
                           Email
                         </FieldLabel>
                         <Input
                           {...field}
-                          id="sign-in-form-email"
+                          id="sign-up-form-email"
                           aria-invalid={fieldState.invalid}
                           placeholder="abc@email.com"
                           autoComplete="off"
@@ -147,12 +149,12 @@ const SignUp = () => {
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor="sign-in-form-pwd">
+                        <FieldLabel htmlFor="sign-up-form-pwd">
                           Password
                         </FieldLabel>
                         <Input
                           {...field}
-                          id="sign-in-form-pwd"
+                          id="sign-up-form-pwd"
                           aria-invalid={fieldState.invalid}
                           placeholder="********"
                           autoComplete="off"
@@ -186,7 +188,7 @@ const SignUp = () => {
                   />
                 </FieldGroup>
                 <FieldGroup>
-                  <Button type="submit" form="sign-in-form">
+                  <Button type="submit" form="sign-up-form">
                     Submit
                   </Button>
                 </FieldGroup>

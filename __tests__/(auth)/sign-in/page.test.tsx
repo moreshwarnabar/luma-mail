@@ -15,15 +15,6 @@ jest.mock('@/lib/auth-client', () => ({
   },
 }));
 
-// Mock next/navigation useRouter
-const mockPush = jest.fn();
-jest.mock('next/navigation', () => ({
-  redirect: jest.fn(),
-  useRouter: () => ({
-    push: mockPush,
-  }),
-}));
-
 // Mock next/image
 jest.mock('next/image', () => ({
   __esModule: true,
@@ -66,15 +57,25 @@ jest.mock('@/modules/auth/components/hero', () => {
   };
 });
 
+const mockPush = (global as typeof globalThis & { __mockPush: jest.Mock })
+  .__mockPush;
+
 describe('SignIn Page', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockPush.mockClear();
     jest.mocked(signIn.email).mockClear();
     jest.mocked(signIn.social).mockClear();
+    jest.mocked(auth.api.getSession).mockClear();
+    mockPush.mockClear();
   });
 
   describe('Server Component Behavior', () => {
+    it('redirects to dashboard when session exists', async () => {
+      await Page();
+
+      expect(redirect).toHaveBeenCalledWith('/dashboard');
+    });
+
     it('renders SignIn component when no session exists', async () => {
       jest.mocked(auth.api.getSession).mockResolvedValue(null);
 
@@ -85,39 +86,6 @@ describe('SignIn Page', () => {
         screen.getByRole('heading', { name: /welcome/i })
       ).toBeInTheDocument();
       expect(redirect).not.toHaveBeenCalled();
-    });
-
-    it('redirects to dashboard when session exists', async () => {
-      jest.mocked(auth.api.getSession).mockResolvedValue({
-        session: {
-          id: 'session-1',
-          userId: '1',
-          token: 'token-1',
-          expiresAt: new Date(),
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        user: {
-          id: '1',
-          name: 'Test User',
-          email: 'test@example.com',
-          emailVerified: false,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      });
-
-      await Page();
-
-      expect(redirect).toHaveBeenCalledWith('/dashboard');
-    });
-
-    it('handles session check with headers', async () => {
-      jest.mocked(auth.api.getSession).mockResolvedValue(null);
-
-      await Page();
-
-      expect(auth.api.getSession).toHaveBeenCalled();
     });
   });
 
@@ -254,7 +222,6 @@ describe('SignIn Page', () => {
 
     it('redirects to dashboard on successful sign-in', async () => {
       const user = userEvent.setup();
-      jest.mocked(signIn.email).mockResolvedValue(undefined);
       const result = await Page();
       render(result);
 
@@ -375,6 +342,7 @@ describe('SignIn Page', () => {
         .mockImplementation(
           () => new Promise(resolve => setTimeout(resolve, 100))
         );
+
       const result = await Page();
       render(result);
 
