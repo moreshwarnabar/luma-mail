@@ -4,8 +4,8 @@ import userEvent from '@testing-library/user-event';
 import { redirect } from 'next/navigation';
 
 import Page from '@/app/(auth)/sign-in/page';
-import { auth } from '@/lib/auth';
-import { signIn } from '@/lib/auth-client';
+import { auth } from '@/lib/auth/auth';
+import { signIn } from '@/lib/auth/auth-client';
 
 // Mock auth-client
 jest.mock('@/lib/auth-client', () => ({
