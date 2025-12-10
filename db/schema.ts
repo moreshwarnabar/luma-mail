@@ -6,6 +6,7 @@ import {
   pgTable,
   text,
   timestamp,
+  uuid,
 } from 'drizzle-orm/pg-core';
 import { primaryKey } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
@@ -87,7 +88,7 @@ export const providerEnum = pgEnum('provider', [
 export const emailLabelEnum = pgEnum('email_label', ['inbox', 'sent', 'draft']);
 
 export const mailAccount = pgTable('mail_account', {
-  id: text('id').primaryKey(),
+  id: uuid('id').defaultRandom().primaryKey(),
   userId: text('user_id')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
