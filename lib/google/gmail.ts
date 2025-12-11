@@ -8,10 +8,11 @@ export const getOAuth2Client = () => {
   );
 };
 
-export const getAuthUrl = async () => {
+export const getAuthUrl = async (state: string) => {
   const client = getOAuth2Client();
   return client.generateAuthUrl({
     access_type: 'offline',
     scope: ['https://www.googleapis.com/auth/gmail.readonly'],
+    state,
   });
 };
