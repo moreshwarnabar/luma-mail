@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getOAuth2Client } from '@/lib/google/gmail';
 import { fetchUserProfile } from '@/modules/email/services/gmailService';
 import { getActiveUserId } from '@/lib/auth/auth';
-import { NewMailAccount } from '@/lib/types/mail';
+import { NewEmailAddress, NewMailAccount } from '@/lib/types/mail';
 import { createMailAccount } from '@/lib/repository/mailAccount';
+import { saveEmailAddress } from '@/lib/repository/emailAddress';
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get('code');
@@ -39,7 +40,13 @@ export async function GET(request: NextRequest) {
       address: profile.emailAddress,
     };
     const mailAccountId = await createMailAccount(mailAccount);
-    // TODO: Create email address entity
+    if (!mailAccountId) return null;
+    // Create email address entity
+    const emailAddress: NewEmailAddress = {
+      address: profile.emailAddress,
+      accountId: mailAccountId,
+    };
+    await saveEmailAddress(emailAddress);
 
     const resp = NextResponse.redirect(
       new URL('/dashboard?connected=gmail', request.url)

@@ -12,3 +12,12 @@ export interface MailAccount {
 }
 
 export type NewMailAccount = Omit<MailAccount, 'id' | 'lastSyncedAt'>;
+
+export interface EmailAddress {
+  id: string;
+  name: string;
+  address: string;
+  accountId: string;
+}
+
+export type NewEmailAddress = Omit<EmailAddress, 'id' | 'name'>;
