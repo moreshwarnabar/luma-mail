@@ -1,10 +1,26 @@
+import { and, eq } from 'drizzle-orm';
+
 import { db } from '@/db';
-import { NewMailAccount } from '../types/mail';
 import { mailAccount } from '@/db/schema';
+
+import { NewMailAccount } from '../types/mail';
 
 export async function createMailAccount(account: NewMailAccount) {
   try {
-    const response = await db
+    // check for duplicates
+    const isDuplicate =
+      (await db.$count(
+        mailAccount,
+        and(
+          eq(mailAccount.provider, account.provider),
+          eq(mailAccount.providerAccountId, account.providerAccountId)
+        )
+      )) == 1;
+    if (isDuplicate) {
+      return null;
+    }
+
+    const insertResponse = await db
       .insert(mailAccount)
       .values({
         userId: account.userId,
@@ -18,7 +34,7 @@ export async function createMailAccount(account: NewMailAccount) {
       })
       .returning({ mailAccountId: mailAccount.id });
 
-    const data = response[0];
+    const data = insertResponse[0];
     if (!data || !data.mailAccountId) return null;
     return data.mailAccountId;
   } catch (err) {
