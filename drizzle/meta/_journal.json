@@ -15,6 +15,13 @@
       "when": 1765407732108,
       "tag": "0001_small_khan",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1765418112570,
+      "tag": "0002_loose_kate_bishop",
+      "breakpoints": true
     }
   ]
 }

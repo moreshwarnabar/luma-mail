@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     // Fetch Gmail profile
     const profile = await fetchUserProfile(tokens);
     if (!profile?.emailAddress) return null;
-    // TODO: Persist account details
+    // Persist account details
     const userId = await getActiveUserId();
     if (!userId) {
       // TODO: throw or return error
@@ -39,7 +39,6 @@ export async function GET(request: NextRequest) {
       address: profile.emailAddress,
     };
     const mailAccountId = await createMailAccount(mailAccount);
-    console.log('MAIL ACCOUNT ID: ', mailAccountId);
     // TODO: Create email address entity
 
     const resp = NextResponse.redirect(

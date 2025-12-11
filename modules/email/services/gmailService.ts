@@ -14,7 +14,6 @@ export const fetchUserProfile = async (
   const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
   try {
     const response = await gmail.users.getProfile({ userId: 'me' });
-    console.log('PROFILE:\n', response.data);
     return response.data;
   } catch (err) {
     console.error('Error fetching gmail profile. ', err);

@@ -109,8 +109,10 @@ export const mailAccount = pgTable('mail_account', {
 });
 
 export const thread = pgTable('thread', {
-  id: text('id').primaryKey(),
-  mailAccountId: text('mail_account_id')
+  id: uuid('id').defaultRandom().primaryKey(),
+  provider: providerEnum().notNull(),
+  providerId: text('provider_id').notNull(),
+  mailAccountId: uuid('mail_account_id')
     .notNull()
     .references(() => mailAccount.id, { onDelete: 'cascade' }),
 
@@ -124,8 +126,10 @@ export const thread = pgTable('thread', {
 });
 
 export const email = pgTable('email', {
-  id: text('id').primaryKey(),
-  threadId: text('thread_id').references(() => thread.id, {
+  id: uuid('id').defaultRandom().primaryKey(),
+  provider: providerEnum().notNull(),
+  providerId: text('provider_id').notNull(),
+  threadId: uuid('thread_id').references(() => thread.id, {
     onDelete: 'cascade',
   }),
 
@@ -138,7 +142,7 @@ export const email = pgTable('email', {
   receivedAt: timestamp('received_at').defaultNow().notNull(),
 
   subject: text('subject'),
-  fromId: text('from_id').references(() => emailAddress.id, {
+  fromId: uuid('from_id').references(() => emailAddress.id, {
     onDelete: 'cascade',
   }),
 
@@ -158,10 +162,10 @@ export const email = pgTable('email', {
 });
 
 export const emailAddress = pgTable('email_address', {
-  id: text('id').primaryKey(),
+  id: uuid('id').defaultRandom().primaryKey(),
   name: text('name'),
   address: citext('address').notNull().unique(),
-  accountId: text('account_id')
+  accountId: uuid('account_id')
     .unique()
     .references(() => mailAccount.id, {
       onDelete: 'cascade',
@@ -169,7 +173,7 @@ export const emailAddress = pgTable('email_address', {
 });
 
 export const emailAttachments = pgTable('email_attachments', {
-  id: text('id').primaryKey(),
+  id: uuid('id').defaultRandom().primaryKey(),
   name: text('name'),
   mimeType: text('mime_type').notNull(),
   size: integer('size').notNull(),
@@ -177,7 +181,7 @@ export const emailAttachments = pgTable('email_attachments', {
   contentId: text('content_id'),
   content: text('content'),
   contentLocation: text('content_location'),
-  emailId: text('email_id').references(() => email.id, { onDelete: 'cascade' }),
+  emailId: uuid('email_id').references(() => email.id, { onDelete: 'cascade' }),
 });
 
 /* -------- JOIN TABLES ------- */
@@ -185,10 +189,10 @@ export const emailAttachments = pgTable('email_attachments', {
 export const emailToRecipients = pgTable(
   'email_to_recipients',
   {
-    emailId: text('email_id')
+    emailId: uuid('email_id')
       .notNull()
       .references(() => email.id, { onDelete: 'cascade' }),
-    emailAddressId: text('email_address_id')
+    emailAddressId: uuid('email_address_id')
       .notNull()
       .references(() => emailAddress.id, { onDelete: 'cascade' }),
   },
@@ -198,10 +202,10 @@ export const emailToRecipients = pgTable(
 export const emailCcRecipients = pgTable(
   'email_cc_recipients',
   {
-    emailId: text('email_id')
+    emailId: uuid('email_id')
       .notNull()
       .references(() => email.id, { onDelete: 'cascade' }),
-    emailAddressId: text('email_address_id')
+    emailAddressId: uuid('email_address_id')
       .notNull()
       .references(() => emailAddress.id, { onDelete: 'cascade' }),
   },
@@ -211,10 +215,10 @@ export const emailCcRecipients = pgTable(
 export const emailBccRecipients = pgTable(
   'email_bcc_recipients',
   {
-    emailId: text('email_id')
+    emailId: uuid('email_id')
       .notNull()
       .references(() => email.id, { onDelete: 'cascade' }),
-    emailAddressId: text('email_address_id')
+    emailAddressId: uuid('email_address_id')
       .notNull()
       .references(() => emailAddress.id, { onDelete: 'cascade' }),
   },
@@ -224,10 +228,10 @@ export const emailBccRecipients = pgTable(
 export const emailReplyToRecipients = pgTable(
   'email_reply_to_recipients',
   {
-    emailId: text('email_id')
+    emailId: uuid('email_id')
       .notNull()
       .references(() => email.id, { onDelete: 'cascade' }),
-    emailAddressId: text('email_address_id')
+    emailAddressId: uuid('email_address_id')
       .notNull()
       .references(() => emailAddress.id, { onDelete: 'cascade' }),
   },
