@@ -65,8 +65,6 @@ export async function GET(request: NextRequest) {
     const resp = NextResponse.redirect(
       new URL('/dashboard?connected=gmail', request.url)
     );
-    if (tokens.access_token)
-      resp.cookies.set('gmail-tokens', tokens.access_token);
 
     return resp;
   } catch (err) {
