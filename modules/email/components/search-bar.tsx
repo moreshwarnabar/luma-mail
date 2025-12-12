@@ -1,4 +1,5 @@
-import Image from 'next/image';
+'use client';
+
 import Link from 'next/link';
 import { IoSearchOutline } from 'react-icons/io5';
 import { FaUser } from 'react-icons/fa';
@@ -6,28 +7,21 @@ import { FaUser } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
 
 const SearchBar = () => {
+  const { open } = useSidebar();
+
   return (
-    <div className="border-b-2 flex justify-between items-center px-3 py-1.5 md:py-1">
-      <div className="flex gap-4 items-center w-2/5">
-        <div>
-          <div className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12">
-            <Image
-              src="/luma-mail-logo.svg"
-              alt="luma-mail-logo"
-              fill
-              style={{ objectFit: 'contain' }}
-              sizes="(max-width: 640px) 2rem, (max-width: 768px) 2.5rem, 3rem"
-              priority
-            />
-          </div>
-        </div>
+    <div className="border-b-2 h-14 flex gap-3 justify-between items-center px-3 py-1.5 md:py-1">
+      <div className="flex flex-1 gap-4 items-center">
+        <SidebarTrigger />
         <div
           className={cn(
             'border rounded-2xl shadow-sm',
-            'flex flex-1 gap-1 items-center px-1',
-            'h-8 sm:h-10'
+            'flex flex-1 gap-1 items-center px-0.5 md:px-1',
+            'lg:max-w-1/2 h-8 sm:h-10',
+            !open && 'md:max-w-3/5'
           )}
         >
           <Input
