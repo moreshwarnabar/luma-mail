@@ -2,12 +2,23 @@
 
 import Image from 'next/image';
 import { IoPencilOutline } from 'react-icons/io5';
-import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react';
+import { MdAlternateEmail } from 'react-icons/md';
+import { useRef, useEffect, useState } from 'react';
+import {
+  Calendar,
+  ChevronDown,
+  Home,
+  Inbox,
+  Plus,
+  Search,
+  Settings,
+} from 'lucide-react';
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
+  SidebarGroupAction,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
@@ -16,7 +27,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 import { cn } from '@/lib/utils';
 
@@ -51,6 +67,16 @@ const items = [
 
 const AppSidebar = () => {
   const { open } = useSidebar();
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const [triggerWidth, setTriggerWidth] = useState<number | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    if (triggerRef.current) {
+      setTriggerWidth(triggerRef.current.offsetWidth);
+    }
+  }, [open]);
 
   return (
     <Sidebar collapsible="icon">
@@ -69,30 +95,65 @@ const AppSidebar = () => {
               Luma Mail
             </h3>
           </div>
-          <Button
-            variant="outline"
-            size="icon-lg"
-            className={cn(!open && 'hidden')}
-          >
-            <IoPencilOutline />
-          </Button>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map(item => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  variant="outline"
+                  // size="icon-lg"
+                  className={cn(
+                    'py-5 px-5',
+                    'bg-orange-400 hover:bg-orange-300 transition-colors duration-500 ease-out'
+                  )}
+                  asChild
+                >
+                  <a href="#" className="flex gap-4">
+                    <IoPencilOutline />
+                    <span className="font-semibold">Compose</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Accounts</SidebarGroupLabel>
+          <SidebarGroupAction title="Add Account">
+            <Plus /> <span className="sr-only">Add Account</span>
+          </SidebarGroupAction>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <SidebarMenuButton
+                      ref={triggerRef}
+                      variant="outline"
+                      className="py-5 px-3 w-full"
+                    >
+                      {open ? 'Select Account' : <MdAlternateEmail />}
+                      <ChevronDown className="ml-auto" />
+                    </SidebarMenuButton>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    className="w-full"
+                    style={
+                      triggerWidth ? { width: `${triggerWidth}px` } : undefined
+                    }
+                  >
+                    <DropdownMenuItem>
+                      <span>Personal</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <span>Arizona State University</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
