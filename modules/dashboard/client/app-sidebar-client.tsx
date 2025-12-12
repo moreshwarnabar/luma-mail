@@ -4,15 +4,7 @@ import Image from 'next/image';
 import { IoPencilOutline } from 'react-icons/io5';
 import { MdAlternateEmail } from 'react-icons/md';
 import { useRef, useEffect, useState } from 'react';
-import {
-  Calendar,
-  ChevronDown,
-  Home,
-  Inbox,
-  Plus,
-  Search,
-  Settings,
-} from 'lucide-react';
+import { ChevronDown, Plus } from 'lucide-react';
 
 import {
   Sidebar,
@@ -36,36 +28,7 @@ import {
 
 import { cn } from '@/lib/utils';
 
-// Menu items.
-const items = [
-  {
-    title: 'Home',
-    url: '#',
-    icon: Home,
-  },
-  {
-    title: 'Inbox',
-    url: '#',
-    icon: Inbox,
-  },
-  {
-    title: 'Calendar',
-    url: '#',
-    icon: Calendar,
-  },
-  {
-    title: 'Search',
-    url: '#',
-    icon: Search,
-  },
-  {
-    title: 'Settings',
-    url: '#',
-    icon: Settings,
-  },
-];
-
-const AppSidebar = () => {
+const AppSidebarClient = () => {
   const { open } = useSidebar();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [triggerWidth, setTriggerWidth] = useState<number | undefined>(
@@ -162,4 +125,4 @@ const AppSidebar = () => {
   );
 };
 
-export default AppSidebar;
+export default AppSidebarClient;

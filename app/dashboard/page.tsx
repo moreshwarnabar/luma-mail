@@ -1,5 +1,3 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -10,7 +8,7 @@ import {
 } from '@/components/ui/card';
 import Link from 'next/link';
 
-import SearchBar from '@/modules/email/components/search-bar';
+import SearchBar from '@/modules/dashboard/client/search-bar';
 
 const Dashboard = () => {
   return (

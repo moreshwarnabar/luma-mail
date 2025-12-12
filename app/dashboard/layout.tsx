@@ -1,13 +1,20 @@
-import { SidebarProvider } from '@/components/ui/sidebar';
-import AppSidebar from '@/modules/email/components/app-sidebar';
 import React from 'react';
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+import AppSidebarServer from '@/modules/dashboard/server/app-sidebar-server';
+import DashboardShell from '@/modules/dashboard/client/dashboard-shell';
+
+interface Props {
+  children: React.ReactNode;
+  searchParams: { account?: string; folder?: string };
+}
+
+const Layout = ({ children, searchParams }: Props) => {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <div className="w-full h-screen">{children}</div>
-    </SidebarProvider>
+    <DashboardShell
+      sidebar={<AppSidebarServer selAccId={searchParams?.account} />}
+    >
+      {children}
+    </DashboardShell>
   );
 };
 
