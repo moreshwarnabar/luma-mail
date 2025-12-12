@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { IoPencilOutline } from 'react-icons/io5';
 import { Calendar, Home, Inbox, Search, Settings } from 'lucide-react';
 
 import {
@@ -15,6 +16,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { Button } from '@/components/ui/button';
+
 import { cn } from '@/lib/utils';
 
 // Menu items.
@@ -52,16 +55,27 @@ const AppSidebar = () => {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <div className="flex gap-3 items-center">
-          <Image
-            src="/luma-mail-logo.svg"
-            alt="luma mail logo"
-            width={48}
-            height={48}
-          />
-          <h3 className={cn('text-lg font-semibold', !open && 'hidden')}>
-            Luma Mail
-          </h3>
+        <div
+          className={cn('flex justify-between items-center', open && 'pr-3')}
+        >
+          <div className="flex gap-3 items-center">
+            <Image
+              src="/luma-mail-logo.svg"
+              alt="luma mail logo"
+              width={48}
+              height={48}
+            />
+            <h3 className={cn('text-lg font-semibold', !open && 'hidden')}>
+              Luma Mail
+            </h3>
+          </div>
+          <Button
+            variant="outline"
+            size="icon-lg"
+            className={cn(!open && 'hidden')}
+          >
+            <IoPencilOutline />
+          </Button>
         </div>
       </SidebarHeader>
       <SidebarContent>
