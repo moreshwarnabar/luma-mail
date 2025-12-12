@@ -10,21 +10,28 @@ import {
 } from '@/components/ui/card';
 import Link from 'next/link';
 
+import SearchBar from '@/modules/email/components/search-bar';
+
 const Dashboard = () => {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Link Account</CardTitle>
-        <CardDescription>
-          Click the button to link your gmail account to Luma Mail.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Link href="/api/auth/google">
-          <Button>Connect to Gmail</Button>
-        </Link>
-      </CardContent>
-    </Card>
+    <>
+      <SearchBar />
+      <div className="h-full flex justify-center items-center">
+        <Card>
+          <CardHeader>
+            <CardTitle>Link Account</CardTitle>
+            <CardDescription>
+              Click the button to link your gmail account to Luma Mail.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link href="/api/auth/google">
+              <Button>Connect to Gmail</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    </>
   );
 };
 
