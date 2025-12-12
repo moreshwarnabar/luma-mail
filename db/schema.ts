@@ -92,6 +92,7 @@ export const mailAccount = pgTable('mail_account', {
   userId: text('user_id')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
+  name: text('name'),
 
   provider: providerEnum().notNull(),
   providerAccountId: text('provider_account_id').notNull().unique(),

@@ -1,6 +1,7 @@
 export interface MailAccount {
   id: string;
   userId: string;
+  name: string | null;
   provider: 'gmail' | 'outlook' | 'imap' | 'yahoo';
   providerAccountId: string;
   address: string;
@@ -11,7 +12,7 @@ export interface MailAccount {
   lastSyncedAt: Date | null;
 }
 
-export type NewMailAccount = Omit<MailAccount, 'id' | 'lastSyncedAt'>;
+export type NewMailAccount = Omit<MailAccount, 'id' | 'lastSyncedAt' | 'name'>;
 
 export interface EmailAddress {
   id: string;

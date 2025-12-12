@@ -5,13 +5,13 @@ import DashboardShell from '@/modules/dashboard/client/dashboard-shell';
 
 interface Props {
   children: React.ReactNode;
-  searchParams: { account?: string; folder?: string };
+  searchParams: { accountId?: string; folder?: string };
 }
 
 const Layout = ({ children, searchParams }: Props) => {
   return (
     <DashboardShell
-      sidebar={<AppSidebarServer selAccId={searchParams?.account} />}
+      sidebar={<AppSidebarServer accountId={searchParams?.accountId} />}
     >
       {children}
     </DashboardShell>

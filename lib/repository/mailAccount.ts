@@ -41,3 +41,17 @@ export async function createMailAccount(account: NewMailAccount) {
     console.error('Error inserting mail account into db, ', err);
   }
 }
+
+export async function findAccountsByUserId(userId: string) {
+  try {
+    const accounts = await db
+      .select()
+      .from(mailAccount)
+      .where(eq(mailAccount.userId, userId));
+
+    return accounts;
+  } catch (err) {
+    console.error('Error finding accounts, ', err);
+    return [];
+  }
+}

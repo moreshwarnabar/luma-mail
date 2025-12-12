@@ -27,13 +27,27 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { cn } from '@/lib/utils';
+import { MailAccount } from '@/lib/types/mail';
+import ConnectAccountModal from './connect-account-modal';
 
-const AppSidebarClient = () => {
-  const { open } = useSidebar();
-  const triggerRef = useRef<HTMLButtonElement>(null);
+interface Props {
+  accounts: MailAccount[];
+  selectedAccountId: string;
+  showModal: boolean;
+}
+
+const AppSidebarClient = ({
+  accounts,
+  selectedAccountId,
+  showModal,
+}: Props) => {
   const [triggerWidth, setTriggerWidth] = useState<number | undefined>(
     undefined
   );
+  const [modalOpen, setModalOpen] = useState(showModal);
+
+  const { open } = useSidebar();
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (triggerRef.current) {
@@ -42,86 +56,90 @@ const AppSidebarClient = () => {
   }, [open]);
 
   return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader>
-        <div
-          className={cn('flex justify-between items-center', open && 'pr-3')}
-        >
-          <div className="flex gap-3 items-center">
-            <Image
-              src="/luma-mail-logo.svg"
-              alt="luma mail logo"
-              width={48}
-              height={48}
-            />
-            <h3 className={cn('text-lg font-semibold', !open && 'hidden')}>
-              Luma Mail
-            </h3>
+    <>
+      <Sidebar collapsible="icon">
+        <SidebarHeader>
+          <div
+            className={cn('flex justify-between items-center', open && 'pr-3')}
+          >
+            <div className="flex gap-3 items-center">
+              <Image
+                src="/luma-mail-logo.svg"
+                alt="luma mail logo"
+                width={48}
+                height={48}
+              />
+              <h3 className={cn('text-lg font-semibold', !open && 'hidden')}>
+                Luma Mail
+              </h3>
+            </div>
           </div>
-        </div>
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  variant="outline"
-                  // size="icon-lg"
-                  className={cn(
-                    'py-5 px-5',
-                    'bg-orange-400 hover:bg-orange-300 transition-colors duration-500 ease-out'
-                  )}
-                  asChild
-                >
-                  <a href="#" className="flex gap-4">
-                    <IoPencilOutline />
-                    <span className="font-semibold">Compose</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupLabel>Accounts</SidebarGroupLabel>
-          <SidebarGroupAction title="Add Account">
-            <Plus /> <span className="sr-only">Add Account</span>
-          </SidebarGroupAction>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <SidebarMenuButton
-                      ref={triggerRef}
-                      variant="outline"
-                      className="py-5 px-3 w-full"
-                    >
-                      {open ? 'Select Account' : <MdAlternateEmail />}
-                      <ChevronDown className="ml-auto" />
-                    </SidebarMenuButton>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    className="w-full"
-                    style={
-                      triggerWidth ? { width: `${triggerWidth}px` } : undefined
-                    }
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    variant="outline"
+                    // size="icon-lg"
+                    className={cn(
+                      'py-5 px-5',
+                      'bg-orange-400 hover:bg-orange-300 transition-colors duration-500 ease-out'
+                    )}
+                    asChild
                   >
-                    <DropdownMenuItem>
-                      <span>Personal</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <span>Arizona State University</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+                    <a href="#" className="flex gap-4">
+                      <IoPencilOutline />
+                      <span className="font-semibold">Compose</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+          <SidebarGroup>
+            <SidebarGroupLabel>Accounts</SidebarGroupLabel>
+            <SidebarGroupAction title="Add Account">
+              <Plus /> <span className="sr-only">Add Account</span>
+            </SidebarGroupAction>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <SidebarMenuButton
+                        ref={triggerRef}
+                        variant="outline"
+                        className="py-5 px-3 w-full"
+                      >
+                        {open ? 'Select Account' : <MdAlternateEmail />}
+                        <ChevronDown className="ml-auto" />
+                      </SidebarMenuButton>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      className="w-full"
+                      style={
+                        triggerWidth
+                          ? { width: `${triggerWidth}px` }
+                          : undefined
+                      }
+                    >
+                      {accounts.map(acc => (
+                        <DropdownMenuItem key={acc.id}>
+                          {acc.name || acc.address}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+      <ConnectAccountModal isOpen={modalOpen} closeModal={setModalOpen} />
+    </>
   );
 };
 
