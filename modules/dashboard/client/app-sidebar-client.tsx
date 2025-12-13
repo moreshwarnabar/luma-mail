@@ -1,34 +1,21 @@
 'use client';
 
 import Image from 'next/image';
-import { IoPencilOutline } from 'react-icons/io5';
-import { MdAlternateEmail } from 'react-icons/md';
-import { useRef, useEffect, useState } from 'react';
-import { ChevronDown, Plus } from 'lucide-react';
+import { useState } from 'react';
 
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupAction,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 import { cn } from '@/lib/utils';
 import { MailAccount } from '@/lib/types/mail';
 import ConnectAccountModal from './connect-account-modal';
+import ComposeButton from './components/compose-button';
+import AccountsGroup from './components/accounts-group';
 
 interface Props {
   accounts: MailAccount[];
@@ -41,21 +28,20 @@ const AppSidebarClient = ({
   selectedAccountId,
   showModal,
 }: Props) => {
-  const [triggerWidth, setTriggerWidth] = useState<number | undefined>(
-    undefined
-  );
   const [modalOpen, setModalOpen] = useState(showModal);
 
   const { open } = useSidebar();
-  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const selectedAccount = accounts.find(acc => acc.id === selectedAccountId);
 
-  useEffect(() => {
-    if (triggerRef.current) {
-      setTriggerWidth(triggerRef.current.offsetWidth);
-    }
-  }, [open]);
+  const dropdownMenu = accounts.map(acc => (
+    <DropdownMenuItem
+      key={acc.id}
+      className={cn(acc.id === selectedAccountId && 'bg-accent')}
+    >
+      {acc.name || acc.address}
+    </DropdownMenuItem>
+  ));
 
   return (
     <>
@@ -78,77 +64,12 @@ const AppSidebarClient = ({
           </div>
         </SidebarHeader>
         <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton
-                    variant="outline"
-                    // size="icon-lg"
-                    className={cn(
-                      'py-5 px-5',
-                      'bg-orange-400 hover:bg-orange-300 transition-colors duration-500 ease-out'
-                    )}
-                    asChild
-                  >
-                    <a href="#" className="flex gap-4">
-                      <IoPencilOutline />
-                      <span className="font-semibold">Compose</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-          <SidebarGroup>
-            <SidebarGroupLabel>Accounts</SidebarGroupLabel>
-            <SidebarGroupAction title="Add Account">
-              <Plus /> <span className="sr-only">Add Account</span>
-            </SidebarGroupAction>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <SidebarMenuButton
-                        ref={triggerRef}
-                        variant="outline"
-                        className="py-5 px-3 w-full"
-                      >
-                        {open ? (
-                          selectedAccount?.name ||
-                          selectedAccount?.address ||
-                          'Select Account'
-                        ) : (
-                          <MdAlternateEmail />
-                        )}
-                        <ChevronDown className="ml-auto" />
-                      </SidebarMenuButton>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                      className="w-full"
-                      style={
-                        triggerWidth
-                          ? { width: `${triggerWidth}px` }
-                          : undefined
-                      }
-                    >
-                      {accounts.map(acc => (
-                        <DropdownMenuItem
-                          key={acc.id}
-                          className={cn(
-                            acc.id === selectedAccountId && 'bg-accent'
-                          )}
-                        >
-                          {acc.name || acc.address}
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
+          <ComposeButton />
+          <AccountsGroup
+            sidebarOpen={open}
+            selectedAccount={selectedAccount}
+            dropdownMenu={dropdownMenu}
+          />
         </SidebarContent>
       </Sidebar>
       <ConnectAccountModal isOpen={modalOpen} closeModal={setModalOpen} />
