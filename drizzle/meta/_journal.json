@@ -29,6 +29,20 @@
       "when": 1765582915883,
       "tag": "0003_light_power_pack",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1765583303434,
+      "tag": "0004_nasty_stepford_cuckoos",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1765583876804,
+      "tag": "0005_fat_killer_shrike",
+      "breakpoints": true
     }
   ]
 }

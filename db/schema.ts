@@ -25,6 +25,8 @@ export const user = pgTable('user', {
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
+
+  defaultMailAccountId: uuid('default_mail_account_id'),
 });
 
 export const session = pgTable('session', {
