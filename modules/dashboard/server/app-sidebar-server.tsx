@@ -7,7 +7,7 @@ import { MailAccount } from '@/lib/types/mail';
 import AppSidebarClient from '../client/app-sidebar-client';
 import { getCachedAccountsByUserId } from '@/lib/repository/cached';
 
-const AppSidebarServer = async ({ accountId }: { accountId?: string }) => {
+const AppSidebarServer = async () => {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect('/sign-in');
 
@@ -18,7 +18,7 @@ const AppSidebarServer = async ({ accountId }: { accountId?: string }) => {
   return (
     <AppSidebarClient
       accounts={accounts}
-      selectedAccountId={accountId ?? accounts[0]?.id ?? null}
+      selectedAccountId={accounts[0]?.id ?? null}
       showModal={accounts.length === 0}
     />
   );

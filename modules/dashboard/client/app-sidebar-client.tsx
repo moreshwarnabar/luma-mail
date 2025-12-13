@@ -49,6 +49,8 @@ const AppSidebarClient = ({
   const { open } = useSidebar();
   const triggerRef = useRef<HTMLButtonElement>(null);
 
+  const selectedAccount = accounts.find(acc => acc.id === selectedAccountId);
+
   useEffect(() => {
     if (triggerRef.current) {
       setTriggerWidth(triggerRef.current.offsetWidth);
@@ -113,7 +115,13 @@ const AppSidebarClient = ({
                         variant="outline"
                         className="py-5 px-3 w-full"
                       >
-                        {open ? 'Select Account' : <MdAlternateEmail />}
+                        {open ? (
+                          selectedAccount?.name ||
+                          selectedAccount?.address ||
+                          'Select Account'
+                        ) : (
+                          <MdAlternateEmail />
+                        )}
                         <ChevronDown className="ml-auto" />
                       </SidebarMenuButton>
                     </DropdownMenuTrigger>
@@ -126,7 +134,12 @@ const AppSidebarClient = ({
                       }
                     >
                       {accounts.map(acc => (
-                        <DropdownMenuItem key={acc.id}>
+                        <DropdownMenuItem
+                          key={acc.id}
+                          className={cn(
+                            acc.id === selectedAccountId && 'bg-accent'
+                          )}
+                        >
                           {acc.name || acc.address}
                         </DropdownMenuItem>
                       ))}
