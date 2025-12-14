@@ -43,6 +43,13 @@
       "when": 1765583876804,
       "tag": "0005_fat_killer_shrike",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1765675337306,
+      "tag": "0006_freezing_alice",
+      "breakpoints": true
     }
   ]
 }

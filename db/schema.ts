@@ -8,7 +8,7 @@ import {
   timestamp,
   uuid,
 } from 'drizzle-orm/pg-core';
-import { primaryKey } from 'drizzle-orm/pg-core';
+import { primaryKey, unique } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 import { citext } from './customTypes';
@@ -87,7 +87,7 @@ export const providerEnum = pgEnum('provider', [
   'yahoo',
 ]);
 
-export const emailLabelEnum = pgEnum('email_label', ['inbox', 'sent', 'draft']);
+export const labelTypeEnum = pgEnum('type', ['system', 'user']);
 
 export const mailAccount = pgTable('mail_account', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -110,6 +110,26 @@ export const mailAccount = pgTable('mail_account', {
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
 });
+
+export const label = pgTable(
+  'label',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    accountId: uuid('account_id')
+      .notNull()
+      .references(() => mailAccount.id, { onDelete: 'cascade' }),
+    provider: providerEnum().notNull(),
+    providerId: text('provider_id'),
+    name: text('name').notNull(),
+    description: text('description'),
+    type: labelTypeEnum().notNull(),
+    colorBg: text('color_bg'),
+    colorText: text('color_text'),
+    messageListVisibility: text('message_list_visibility'),
+    labelListVisibility: text('label_list_visibility'),
+  },
+  t => [unique().on(t.accountId, t.providerId)]
+);
 
 export const thread = pgTable('thread', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -160,8 +180,6 @@ export const email = pgTable('email', {
   nativeProperties: json('native_properties'),
   folderId: text('folder_id'),
   omitted: text('omitted'),
-
-  emailLabel: emailLabelEnum(),
 });
 
 export const emailAddress = pgTable('email_address', {
@@ -241,6 +259,19 @@ export const emailReplyToRecipients = pgTable(
   t => [primaryKey({ columns: [t.emailId, t.emailAddressId] })]
 );
 
+export const emailToLabels = pgTable(
+  'email_to_labels',
+  {
+    emailId: uuid('email_id')
+      .notNull()
+      .references(() => email.id, { onDelete: 'cascade' }),
+    labelId: uuid('label_id')
+      .notNull()
+      .references(() => label.id, { onDelete: 'cascade' }),
+  },
+  t => [primaryKey({ columns: [t.emailId, t.labelId] })]
+);
+
 /* -------- RELATIONS ------- */
 
 export const emailRelations = relations(email, ({ one, many }) => ({
@@ -253,6 +284,7 @@ export const emailRelations = relations(email, ({ one, many }) => ({
   cc: many(emailCcRecipients),
   bcc: many(emailBccRecipients),
   replyTo: many(emailReplyToRecipients),
+  labels: many(emailToLabels),
 }));
 
 export const emailAdressRelations = relations(emailAddress, ({ many }) => ({
@@ -319,3 +351,22 @@ export const emailReplyToRecipientsRelations = relations(
     }),
   })
 );
+
+export const labelRelations = relations(label, ({ one, many }) => ({
+  account: one(mailAccount, {
+    fields: [label.accountId],
+    references: [mailAccount.id],
+  }),
+  emails: many(emailToLabels),
+}));
+
+export const emailToLabelsRelations = relations(emailToLabels, ({ one }) => ({
+  email: one(email, {
+    fields: [emailToLabels.emailId],
+    references: [email.id],
+  }),
+  label: one(label, {
+    fields: [emailToLabels.labelId],
+    references: [label.id],
+  }),
+}));
