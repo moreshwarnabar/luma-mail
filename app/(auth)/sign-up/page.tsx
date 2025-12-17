@@ -1,6 +1,6 @@
 import { headers } from 'next/headers';
 
-import { auth } from '@/lib/auth/auth';
+import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import SignUp from '@/modules/auth/view/sign-up';
 
