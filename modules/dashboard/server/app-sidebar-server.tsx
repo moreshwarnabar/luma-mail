@@ -15,10 +15,13 @@ const AppSidebarServer = async () => {
 
   const accounts: MailAccount[] = await getCachedAccountsByUserId(userId)();
 
+  const accountId = accounts[0]?.id ?? null;
+  console.log(accountId);
+
   return (
     <AppSidebarClient
       accounts={accounts}
-      selectedAccountId={accounts[0]?.id ?? null}
+      selectedAccountId={accountId}
       showModal={accounts.length === 0}
     />
   );

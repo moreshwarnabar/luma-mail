@@ -1,0 +1,1 @@
+ALTER TABLE "label" ALTER COLUMN "name" DROP NOT NULL;

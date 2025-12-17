@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { getOAuth2Client } from '@/lib/google/gmail';
-import { fetchUserProfile } from '@/modules/email/services/gmailService';
+import {
+  fetchLabels,
+  fetchUserProfile,
+} from '@/modules/email/services/gmailService';
 import { getActiveUserId } from '@/lib/auth/auth';
-import { NewEmailAddress, NewMailAccount } from '@/lib/types/mail';
+import { NewEmailAddress, NewLabel, NewMailAccount } from '@/lib/types/mail';
 import { createMailAccount } from '@/lib/repository/mailAccount';
 import { saveEmailAddress } from '@/lib/repository/emailAddress';
 import { cookies } from 'next/headers';
+import { saveLabels } from '@/lib/repository/labels';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get('code');
@@ -61,6 +66,23 @@ export async function GET(request: NextRequest) {
       accountId: mailAccountId,
     };
     await saveEmailAddress(emailAddress);
+
+    // fetch and save labels
+    const response = await fetchLabels(tokens.access_token);
+    // Convert the fetched labels into new labels
+    const fetchedLabels = response?.labels ?? [];
+    const labels: NewLabel[] = fetchedLabels.map(label => ({
+      accountId: mailAccountId,
+      provider: 'gmail',
+      providerId: label.id || '',
+      type: label.type === 'system' ? 'system' : 'user',
+      messageListVisibility: label.messageListVisibility || '',
+      labelListVisibility: label.labelListVisibility || '',
+    }));
+    await saveLabels(labels);
+
+    revalidateTag(`mail-accounts:${userId}`, 'max');
+    revalidatePath('/dashboard');
 
     const resp = NextResponse.redirect(
       new URL('/dashboard?connected=gmail', request.url)

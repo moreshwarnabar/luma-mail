@@ -120,7 +120,7 @@ export const label = pgTable(
       .references(() => mailAccount.id, { onDelete: 'cascade' }),
     provider: providerEnum().notNull(),
     providerId: text('provider_id'),
-    name: text('name').notNull(),
+    name: text('name'),
     description: text('description'),
     type: labelTypeEnum().notNull(),
     colorBg: text('color_bg'),

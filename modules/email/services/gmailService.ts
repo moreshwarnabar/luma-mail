@@ -33,7 +33,7 @@ export const fetchUserProfile = async (
 
 export const fetchLabels = async (
   access_token: string,
-  refresh_token: string | null | undefined
+  refresh_token?: string | null | undefined
 ): Promise<gmail_v1.Schema$ListLabelsResponse | null> => {
   const gmail = getGmailClient(access_token, refresh_token);
 
