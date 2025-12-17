@@ -4,8 +4,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { redirect } from 'next/navigation';
 
 import Page from '@/app/(auth)/sign-up/page';
-import { auth } from '@/lib/auth/auth';
-import { signIn, signUp } from '@/lib/auth/auth-client';
+import { auth } from '@/lib/auth';
+import { signIn, signUp } from '@/lib/auth-client';
 
 const mockPush = (global as typeof globalThis & { __mockPush: jest.Mock })
   .__mockPush;

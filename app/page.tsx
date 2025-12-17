@@ -1,4 +1,4 @@
-import { auth } from '@/lib/auth/auth';
+import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -9,5 +9,9 @@ export default async function Home() {
     redirect('/sign-in');
   }
 
-  redirect('/dashboard');
+  return (
+    <div>
+      <h1 className="text-3xl font-bold underline">Hello World</h1>
+    </div>
+  );
 }

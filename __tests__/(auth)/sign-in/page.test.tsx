@@ -4,8 +4,51 @@ import userEvent from '@testing-library/user-event';
 import { redirect } from 'next/navigation';
 
 import Page from '@/app/(auth)/sign-in/page';
-import { auth } from '@/lib/auth/auth';
-import { signIn } from '@/lib/auth/auth-client';
+import { auth } from '@/lib/auth';
+import { signIn } from '@/lib/auth-client';
+
+// Mock auth-client
+jest.mock('@/lib/auth-client', () => ({
+  signIn: {
+    email: jest.fn(),
+    social: jest.fn(),
+  },
+}));
+
+// Mock next/image
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: function Image(props: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  }) {
+    /* eslint-disable @next/next/no-img-element -- Mock component for testing */
+    return (
+      <img
+        src={props.src}
+        alt={props.alt}
+        width={props.width}
+        height={props.height}
+      />
+    );
+    /* eslint-enable @next/next/no-img-element */
+  },
+}));
+
+// Mock next/link
+jest.mock('next/link', () => {
+  return function Link({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) {
+    return <a href={href}>{children}</a>;
+  };
+});
 
 // Mock Hero component
 jest.mock('@/modules/auth/components/hero', () => {
