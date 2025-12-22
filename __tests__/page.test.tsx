@@ -1,20 +1,22 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
 import { redirect } from 'next/navigation';
 
 import Page from '@/app/page';
 import { auth } from '@/lib/auth';
 
 describe('Page', () => {
-  it('renders a heading', async () => {
-    render(await Page());
-
-    const heading = await screen.findByRole('heading', { level: 1 });
-
-    expect(heading).toBeInTheDocument();
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.mocked(auth.api.getSession).mockClear();
   });
 
-  it('redirects when no session', async () => {
+  it('redirects to dashboard when session exists', async () => {
+    await Page();
+
+    expect(redirect).toHaveBeenCalledWith('/dashboard');
+  });
+
+  it('redirects to sign-in when no session', async () => {
     jest.mocked(auth.api.getSession).mockResolvedValue(null);
 
     await Page();
