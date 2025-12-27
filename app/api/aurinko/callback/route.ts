@@ -25,10 +25,11 @@ export async function GET(req: NextRequest) {
   const accountInfo = await getEmailAccountDetails(token.accessToken);
   const accountId = await createMailAccount({
     userId: session.user.id,
+    aurinkoId: token.accountId,
     emailAddress: accountInfo.email,
     name: accountInfo.name,
     accessToken: token.accessToken,
   });
 
-  return NextResponse.redirect(new URL('/dashboard', req.nextUrl.origin));
+  return NextResponse.redirect(new URL('/dashboard', req.url));
 }

@@ -1,5 +1,12 @@
 import { relations } from 'drizzle-orm';
-import { boolean, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import {
+  bigint,
+  boolean,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -70,9 +77,10 @@ export const mailAccount = pgTable('mail_account', {
   userId: text('user_id')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
+  aurinkoId: bigint('aurinko_id', { mode: 'number' }).notNull().unique(),
 
   accessToken: text('access_token').unique(),
-  emailAddress: text('email_address'),
+  emailAddress: text('email_address').unique(),
   name: text('name'),
 });
 

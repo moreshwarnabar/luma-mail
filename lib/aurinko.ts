@@ -43,10 +43,9 @@ export async function getAurinkoAccessToken(code: string) {
       userSession: string;
     };
   } catch (err) {
-    if (axios.isAxiosError(err)) {
+    if (axios.isAxiosError(err))
       console.error('Error fetching account details', err.response?.data);
-      console.error('Error config', err.config);
-    } else console.error('Unexpected error fetching account details', err);
+    else console.error('Unexpected error fetching account details', err);
     throw err;
   }
 }
