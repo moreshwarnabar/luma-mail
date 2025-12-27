@@ -1,4 +1,5 @@
-import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
+import { boolean, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -61,3 +62,22 @@ export const verification = pgTable('verification', {
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
 });
+
+/* ------- CORE TABLES ------- */
+
+export const mailAccount = pgTable('mail_account', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+
+  accessToken: text('access_token').unique(),
+  emailAddress: text('email_address'),
+  name: text('name'),
+});
+
+/* ------- JOIN TABLES ------- */
+
+export const userRelations = relations(user, ({ many }) => ({
+  mailAccounts: many(mailAccount),
+}));
