@@ -79,8 +79,8 @@ export const mailAccount = pgTable('mail_account', {
     .references(() => user.id, { onDelete: 'cascade' }),
   aurinkoId: bigint('aurinko_id', { mode: 'number' }).notNull().unique(),
 
-  accessToken: text('access_token').unique(),
-  emailAddress: text('email_address').unique(),
+  accessToken: text('access_token').unique().notNull(),
+  emailAddress: text('email_address').unique().notNull(),
   name: text('name'),
 });
 
