@@ -4,7 +4,7 @@ export interface MailAccount {
   aurinkoId: number;
   accessToken: string;
   emailAddress: string;
-  name: string;
+  name: string | null;
 }
 
 export type NewMailAccount = Omit<MailAccount, 'id'>;

@@ -82,6 +82,8 @@ export const mailAccount = pgTable('mail_account', {
   accessToken: text('access_token').unique().notNull(),
   emailAddress: text('email_address').unique().notNull(),
   name: text('name'),
+
+  updatedDeltaToken: text('updated_delta_token'),
 });
 
 /* ------- JOIN TABLES ------- */
