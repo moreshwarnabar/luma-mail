@@ -4,7 +4,7 @@ import {
   EmailMessage,
   SyncResponse,
   UpdatedEmailsSyncResponse,
-} from '../types/aurinkoDTO';
+} from '../types/aurinko';
 
 export class MailAccountWrapper {
   private accessToken;

@@ -1,4 +1,7 @@
-import { findEmailAccountById } from '@/lib/repository/mailAccount';
+import {
+  findEmailAccountById,
+  updateDeltaTokenById,
+} from '@/lib/repository/mailAccount';
 import { MailAccountWrapper } from '@/lib/wrappers/mailAccountWrapper';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -14,7 +17,6 @@ export async function POST(req: NextRequest) {
   if (!mailAccount)
     return NextResponse.json({ error: 'Account not found' }, { status: 400 });
 
-  // TODO: perform initial sync and receive emails
   const accWrapper = new MailAccountWrapper(mailAccount.accessToken);
   const syncResponse = await accWrapper.performInitialSync();
   if (!syncResponse)
@@ -24,6 +26,7 @@ export async function POST(req: NextRequest) {
     );
 
   const { emails, deltaToken } = syncResponse;
+  const mailAccountId = await updateDeltaTokenById(mailAccount.id, deltaToken);
 
-  // TODO: save emails to db
+  // TODO: save emails
 }
