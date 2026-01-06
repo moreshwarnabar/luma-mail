@@ -1,21 +1,17 @@
-'use client';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
-import { Button } from '@/components/ui/button';
-import { getAurinkoAuthUrl } from '@/lib/aurinko';
+import { auth } from '@/lib/auth';
+import LinkAccount from './link-account';
 
-const Dashboard = () => {
-  return (
-    <div>
-      <Button
-        onClick={async () => {
-          const aurinkoUrl = await getAurinkoAuthUrl('Google');
-          window.location.href = aurinkoUrl;
-        }}
-      >
-        Link Account
-      </Button>
-    </div>
-  );
+const Dashboard = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) redirect('/sign-in');
+
+  return <LinkAccount />;
 };
 
 export default Dashboard;

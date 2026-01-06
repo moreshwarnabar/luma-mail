@@ -28,5 +28,7 @@ export async function POST(req: NextRequest) {
   const { emails, deltaToken } = syncResponse;
   const mailAccountId = await updateDeltaTokenById(mailAccount.id, deltaToken);
 
+  console.log(emails);
+
   // TODO: save emails
 }

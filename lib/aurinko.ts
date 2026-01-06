@@ -7,6 +7,7 @@ import { auth } from './auth';
 
 export async function getAurinkoAuthUrl(serviceType: 'Google' | 'Office365') {
   const session = await auth.api.getSession({ headers: await headers() });
+  // TODO: implement proper error handling
   if (!session) throw new Error();
 
   const queryParams = new URLSearchParams({
