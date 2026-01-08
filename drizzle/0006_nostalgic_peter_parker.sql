@@ -1,0 +1,1 @@
+ALTER TABLE "email" RENAME COLUMN "meetingMessageMethod" TO "meeting_message_method";

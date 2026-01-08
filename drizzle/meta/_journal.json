@@ -36,6 +36,20 @@
       "when": 1767744009322,
       "tag": "0004_deep_red_ghost",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1767903051609,
+      "tag": "0005_last_forge",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1767903100889,
+      "tag": "0006_nostalgic_peter_parker",
+      "breakpoints": true
     }
   ]
 }

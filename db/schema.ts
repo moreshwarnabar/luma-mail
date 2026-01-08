@@ -92,6 +92,17 @@ export const meetingMessageMethodEnum = pgEnum('meeting_message_method', [
   'other',
 ]);
 
+export const sysLabelEnum = pgEnum('sys_labels', [
+  'junk',
+  'trash',
+  'sent',
+  'inbox',
+  'unread',
+  'flagged',
+  'important',
+  'draft',
+]);
+
 export const mailAccount = pgTable('mail_account', {
   id: uuid('id').defaultRandom().primaryKey(),
   userId: text('user_id')
@@ -137,11 +148,11 @@ export const email = pgTable('email', {
 
   internetMessageId: text('internet_message_id'),
   subject: text('subject'),
-  sysLabels: text('sys_labels').array(),
+  sysLabels: sysLabelEnum('sys_labels').array(),
   keywords: text('keywords').array(),
   sysClassifications: text('sys_classifications').array(),
   sensitivity: sensitivityEnum(),
-  meetingMessageMethod: meetingMessageMethodEnum(),
+  meetingMessageMethod: meetingMessageMethodEnum('meeting_message_method'),
 
   from: uuid('from')
     .notNull()

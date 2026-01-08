@@ -1,0 +1,2 @@
+CREATE TYPE "public"."sys_labels" AS ENUM('junk', 'trash', 'sent', 'inbox', 'unread', 'flagged', 'important', 'draft');--> statement-breakpoint
+ALTER TABLE "email" ALTER COLUMN "sys_labels" SET DATA TYPE "public"."sys_labels"[] USING "sys_labels"::"public"."sys_labels"[];
