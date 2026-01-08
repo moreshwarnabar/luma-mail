@@ -31,4 +31,5 @@ export async function POST(req: NextRequest) {
   console.log(emails);
 
   // TODO: save emails
+  return NextResponse.json({ success: true }, { status: 200 });
 }
