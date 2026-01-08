@@ -29,6 +29,13 @@
       "when": 1767207089432,
       "tag": "0003_silent_steve_rogers",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1767744009322,
+      "tag": "0004_deep_red_ghost",
+      "breakpoints": true
     }
   ]
 }
