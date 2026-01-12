@@ -133,6 +133,9 @@ export const thread = pgTable('thread', {
   mailAccountId: uuid('mail_account_id')
     .notNull()
     .references(() => mailAccount.id, { onDelete: 'cascade' }),
+
+  subject: text('subject'),
+  lastMessageDate: timestamp('last_message_date'),
 });
 
 export const email = pgTable('email', {
@@ -259,6 +262,7 @@ export const threadRelations = relations(thread, ({ one, many }) => ({
     fields: [thread.mailAccountId],
     references: [mailAccount.id],
   }),
+  participants: many(emailAddress),
   emails: many(email),
 }));
 

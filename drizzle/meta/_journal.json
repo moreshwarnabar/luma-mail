@@ -50,6 +50,13 @@
       "when": 1767903100889,
       "tag": "0006_nostalgic_peter_parker",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1768256648272,
+      "tag": "0007_regular_eternity",
+      "breakpoints": true
     }
   ]
 }
