@@ -262,7 +262,6 @@ export const threadRelations = relations(thread, ({ one, many }) => ({
     fields: [thread.mailAccountId],
     references: [mailAccount.id],
   }),
-  participants: many(emailAddress),
   emails: many(email),
 }));
 
