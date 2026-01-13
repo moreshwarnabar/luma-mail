@@ -4,7 +4,7 @@ import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/lib/auth';
-import { createMailAccount } from '@/lib/repository/mailAccount';
+import { createMailAccount } from '@/lib/repository/mail-account';
 import { getAurinkoAccessToken, getEmailAccountDetails } from '@/lib/aurinko';
 
 export async function GET(req: NextRequest) {

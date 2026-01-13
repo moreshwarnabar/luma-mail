@@ -11,7 +11,7 @@ export async function saveEmailAddress(
       .insert(emailAddress)
       .values({ ...address, mailAccountId })
       .onConflictDoUpdate({
-        target: emailAddress.address,
+        target: [emailAddress.mailAccountId, emailAddress.address],
         set: { name: address.name, raw: address.raw },
       })
       .returning({ addressId: emailAddress.id, address: emailAddress.address });

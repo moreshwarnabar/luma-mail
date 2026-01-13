@@ -1,0 +1,1 @@
+ALTER TABLE "email_address" ADD CONSTRAINT "email_address_mail_account_id_address_unique" UNIQUE("mail_account_id","address");

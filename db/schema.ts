@@ -10,6 +10,7 @@ import {
   primaryKey,
   text,
   timestamp,
+  unique,
   uuid,
 } from 'drizzle-orm/pg-core';
 
@@ -117,16 +118,20 @@ export const mailAccount = pgTable('mail_account', {
   updatedDeltaToken: text('updated_delta_token'),
 });
 
-export const emailAddress = pgTable('email_address', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  mailAccountId: uuid('mail_account_id')
-    .notNull()
-    .references(() => mailAccount.id, { onDelete: 'cascade' }),
+export const emailAddress = pgTable(
+  'email_address',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    mailAccountId: uuid('mail_account_id')
+      .notNull()
+      .references(() => mailAccount.id, { onDelete: 'cascade' }),
 
-  name: text('name'),
-  address: text('address').notNull(),
-  raw: text('raw'),
-});
+    name: text('name'),
+    address: text('address').notNull(),
+    raw: text('raw'),
+  },
+  t => [unique().on(t.mailAccountId, t.address)]
+);
 
 export const thread = pgTable('thread', {
   id: text('id').primaryKey(),

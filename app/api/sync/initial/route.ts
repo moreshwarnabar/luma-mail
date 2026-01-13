@@ -1,8 +1,9 @@
 import {
   findEmailAccountById,
   updateDeltaTokenById,
-} from '@/lib/repository/mailAccount';
-import { MailAccountWrapper } from '@/lib/wrappers/mailAccountWrapper';
+} from '@/lib/repository/mail-account';
+import { MailAccountWrapper } from '@/lib/wrappers/mail-account-wrapper';
+import { syncEmails } from '@/modules/dashboard/service/sync-emails';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -31,5 +32,7 @@ export async function POST(req: NextRequest) {
   console.log(emails);
 
   // TODO: save emails
+  await syncEmails(emails, mailAccountId);
+
   return NextResponse.json({ success: true }, { status: 200 });
 }

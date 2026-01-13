@@ -57,6 +57,13 @@
       "when": 1768256648272,
       "tag": "0007_regular_eternity",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1768343169592,
+      "tag": "0008_rapid_supreme_intelligence",
+      "breakpoints": true
     }
   ]
 }
