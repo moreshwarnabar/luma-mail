@@ -180,7 +180,7 @@ export const email = pgTable('email', {
 });
 
 export const emailAttachment = pgTable('email_attachment', {
-  id: text('id'),
+  id: text('id').primaryKey(),
   emailId: text('email_id')
     .notNull()
     .references(() => email.id, { onDelete: 'cascade' }),
