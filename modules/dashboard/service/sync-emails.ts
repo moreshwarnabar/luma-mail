@@ -1,4 +1,3 @@
-import pLimit from 'p-limit';
 import { EmailMessage } from '@/lib/types/aurinko';
 import { saveEmailAddress } from '@/lib/repository/email-address';
 import { Thread } from '@/lib/types/entities';
@@ -12,11 +11,8 @@ export async function syncEmails(
   console.log('attempting to sync emails', emails.length);
 
   try {
-    const limit = pLimit(10);
-    await Promise.all(
-      emails.map(
-        async (email, idx) => await upsertEmail(email, idx, mailAccountId)
-      )
+    emails.forEach(
+      async (email, idx) => await upsertEmail(email, idx, mailAccountId)
     );
 
     console.log('synced all emails');
