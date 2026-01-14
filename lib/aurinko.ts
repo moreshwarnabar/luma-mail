@@ -47,7 +47,7 @@ export async function getAurinkoAccessToken(code: string) {
     if (axios.isAxiosError(err))
       console.error('Error fetching account details', err.response?.data);
     else console.error('Unexpected error fetching account details', err);
-    throw err;
+    return null;
   }
 }
 

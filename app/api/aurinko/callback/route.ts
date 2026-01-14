@@ -17,7 +17,6 @@ export async function GET(req: NextRequest) {
   if (!code)
     return NextResponse.json({ message: 'No code received.' }, { status: 400 });
 
-  console.log('EXCHANGING CODE FOR TOKEN');
   const token = await getAurinkoAccessToken(code);
   if (!token)
     return NextResponse.json(
