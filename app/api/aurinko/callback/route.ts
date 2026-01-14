@@ -1,11 +1,11 @@
-import axios from 'axios';
 import { waitUntil } from '@vercel/functions';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { auth } from '@/lib/auth';
+import { auth } from '@/lib/auth/auth';
 import { createMailAccount } from '@/lib/repository/mail-account';
 import { getAurinkoAccessToken, getEmailAccountDetails } from '@/lib/aurinko';
+import { performInitialSync } from '@/modules/dashboard/service/initial-sync';
 
 export async function GET(req: NextRequest) {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -35,12 +35,8 @@ export async function GET(req: NextRequest) {
   });
 
   waitUntil(
-    axios
-      .post(`${process.env.NEXT_PUBLIC_URL}/api/sync/initial`, {
-        accountId,
-        userId: session.user.id,
-      })
-      .then(resp => {
+    performInitialSync(accountId, session.user.id)
+      .then(() => {
         console.log('Triggered initial sync');
       })
       .catch(err => {

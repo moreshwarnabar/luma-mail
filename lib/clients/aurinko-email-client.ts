@@ -6,7 +6,7 @@ import {
   UpdatedEmailsSyncResponse,
 } from '../types/aurinko';
 
-export class MailAccountWrapper {
+export class AurinkoEmailClient {
   private accessToken;
 
   constructor(accessToken: string) {

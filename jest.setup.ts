@@ -85,7 +85,7 @@ jest.mock('better-auth/adapters/drizzle', () => ({
 }));
 
 // Mock getSession api
-jest.mock('@/lib/auth', () => ({
+jest.mock('@/lib/auth/auth', () => ({
   auth: {
     api: {
       getSession: jest.fn(() =>
@@ -113,7 +113,7 @@ jest.mock('@/lib/auth', () => ({
 }));
 
 // Mock auth client
-jest.mock('@/lib/auth-client', () => ({
+jest.mock('@/lib/auth/auth-client', () => ({
   signIn: {
     email: jest.fn(),
     social: jest.fn(),

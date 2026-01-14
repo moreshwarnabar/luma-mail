@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { headers } from 'next/headers';
 
-import { auth } from './auth';
+import { auth } from './auth/auth';
 
 export async function getAurinkoAuthUrl(serviceType: 'Google' | 'Office365') {
   const session = await auth.api.getSession({ headers: await headers() });

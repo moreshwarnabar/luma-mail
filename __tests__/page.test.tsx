@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { redirect } from 'next/navigation';
 
 import Page from '@/app/page';
-import { auth } from '@/lib/auth';
+import { auth } from '@/lib/auth/auth';
 
 describe('Page', () => {
   beforeEach(() => {
