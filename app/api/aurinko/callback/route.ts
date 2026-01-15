@@ -25,9 +25,9 @@ export async function GET(req: NextRequest) {
       { status: 400 }
     );
 
-  const accountInfo = await getEmailAccountDetails(token.accessToken);
   let accountId: string;
   try {
+    const accountInfo = await getEmailAccountDetails(token.accessToken);
     accountId = await createMailAccount({
       userId: session.user.id,
       aurinkoId: token.accountId,
@@ -44,7 +44,10 @@ export async function GET(req: NextRequest) {
         { message: 'Another user has already linked this account' },
         { status: 409 }
       );
-    throw err;
+    return NextResponse.json(
+      { message: 'Unable to link email account' },
+      { status: 500 }
+    );
   }
 
   waitUntil(
