@@ -1,0 +1,76 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1766614638182,
+      "tag": "0000_youthful_ogun",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1766878444438,
+      "tag": "0001_sharp_hex",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767202995829,
+      "tag": "0002_left_network",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1767207089432,
+      "tag": "0003_silent_steve_rogers",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1767744009322,
+      "tag": "0004_deep_red_ghost",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1767903051609,
+      "tag": "0005_last_forge",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1767903100889,
+      "tag": "0006_nostalgic_peter_parker",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1768256648272,
+      "tag": "0007_regular_eternity",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1768343169592,
+      "tag": "0008_rapid_supreme_intelligence",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1768345051816,
+      "tag": "0009_stale_mister_sinister",
+      "breakpoints": true
+    }
+  ]
+}

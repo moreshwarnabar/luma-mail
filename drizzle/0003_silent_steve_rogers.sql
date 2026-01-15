@@ -1,0 +1,1 @@
+ALTER TABLE "mail_account" ADD COLUMN "updated_delta_token" text;
