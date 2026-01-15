@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
   if (!code)
     return NextResponse.json({ message: 'No code received.' }, { status: 400 });
 
+  console.log('EXCHANGING CODE FOR TOKEN');
   const token = await getAurinkoAccessToken(code);
   if (!token)
     return NextResponse.json(
@@ -25,13 +26,26 @@ export async function GET(req: NextRequest) {
     );
 
   const accountInfo = await getEmailAccountDetails(token.accessToken);
-  const accountId = await createMailAccount({
-    userId: session.user.id,
-    aurinkoId: token.accountId,
-    emailAddress: accountInfo.email,
-    name: accountInfo.name,
-    accessToken: token.accessToken,
-  });
+  let accountId: string;
+  try {
+    accountId = await createMailAccount({
+      userId: session.user.id,
+      aurinkoId: token.accountId,
+      emailAddress: accountInfo.email,
+      name: accountInfo.name,
+      accessToken: token.accessToken,
+    });
+  } catch (err) {
+    if (
+      err instanceof Error &&
+      err.message === 'Another user has already linked this account'
+    )
+      return NextResponse.json(
+        { message: 'Another user has already linked this account' },
+        { status: 409 }
+      );
+    throw err;
+  }
 
   waitUntil(
     performInitialSync(accountId, session.user.id)

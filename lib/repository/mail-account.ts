@@ -7,6 +7,14 @@ export async function createMailAccount(
   account: NewMailAccount
 ): Promise<string> {
   try {
+    const existing = await db
+      .select({ userId: mailAccount.userId })
+      .from(mailAccount)
+      .where(eq(mailAccount.aurinkoId, account.aurinkoId));
+
+    if (existing[0] && existing[0].userId !== account.userId)
+      throw new Error('Another user has already linked this account');
+
     const response = await db
       .insert(mailAccount)
       .values({

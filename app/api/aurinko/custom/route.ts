@@ -9,7 +9,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
 
   const params = req.nextUrl.searchParams;
-  console.log('SENDING PARAMS TO AURINKO CALLBACK');
   return NextResponse.redirect(
     new URL(`https://api.aurinko.io/v1/auth/callback?${params.toString()}`)
   );
