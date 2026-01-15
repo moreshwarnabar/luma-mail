@@ -6,6 +6,12 @@
 .cursorignore
 .cursorignorerules
 
+# codex
+.codex
+
+# claude
+.claude
+
 # prettier
 .prettierrc
 

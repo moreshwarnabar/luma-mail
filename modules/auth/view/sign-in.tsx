@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 
@@ -49,11 +49,18 @@ const SignIn = () => {
     },
   });
 
+  const handleGoogleSignIn = useCallback(async () => {
+    await signIn.social({ provider: 'google' });
+  }, []);
+
+  const handleGithubSignIn = useCallback(async () => {
+    await signIn.social({ provider: 'github' });
+  }, []);
+
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsPending(true);
     try {
       await signIn.email({ email: data.email, password: data.password });
-      setIsPending(false);
       router.push('/dashboard');
     } catch (err) {
       const msg =
@@ -64,6 +71,8 @@ const SignIn = () => {
       else if (/password/i.test(msg))
         form.setError('password', { message: 'Invalid password' });
       else form.setError('password', { message: 'Invalid email or password' });
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -151,9 +160,7 @@ const SignIn = () => {
                   <div className="grid grid-cols-2 gap-2 sm:gap-3">
                     <Button
                       disabled={isPending}
-                      onClick={async () =>
-                        await signIn.social({ provider: 'google' })
-                      }
+                      onClick={handleGoogleSignIn}
                       type="button"
                     >
                       <FaGoogle className="mr-1 sm:mr-2 text-xs sm:text-sm" />
@@ -161,9 +168,7 @@ const SignIn = () => {
                     </Button>
                     <Button
                       disabled={isPending}
-                      onClick={async () =>
-                        await signIn.social({ provider: 'github' })
-                      }
+                      onClick={handleGithubSignIn}
                       type="button"
                     >
                       <FaGithub className="mr-1 sm:mr-2 text-xs sm:text-sm" />
