@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import { auth } from '@/lib/auth/auth';
-import LinkAccount from './_components/link-account';
+import DashboardShell from './_components/dashboard-shell';
 
 const Dashboard = async () => {
   const session = await auth.api.getSession({
@@ -11,7 +11,7 @@ const Dashboard = async () => {
 
   if (!session) redirect('/sign-in');
 
-  return <LinkAccount />;
+  return <DashboardShell />;
 };
 
 export default Dashboard;
