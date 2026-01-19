@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/auth';
 import { createMailAccount } from '@/lib/repository/mail-account';
 import { getAurinkoAccessToken, getEmailAccountDetails } from '@/lib/aurinko';
-import { performInitialSync } from '@/modules/dashboard/service/initial-sync';
+import { performInitialSync } from '@/lib/services/initial-sync';
 
 export async function GET(req: NextRequest) {
   const session = await auth.api.getSession({ headers: await headers() });

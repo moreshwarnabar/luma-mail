@@ -1,7 +1,7 @@
 import { headers } from 'next/headers';
 
 import { auth } from '@/lib/auth/auth';
-import SignIn from '@/modules/auth/view/sign-in';
+import SignIn from './_components/sign-in-form';
 import { redirect } from 'next/navigation';
 
 const Page = async () => {

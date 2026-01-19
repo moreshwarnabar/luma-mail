@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 
 import { auth } from '@/lib/auth/auth';
 import { redirect } from 'next/navigation';
-import SignUp from '@/modules/auth/view/sign-up';
+import SignUp from './_components/sign-up-form';
 
 const Page = async () => {
   const session = await auth.api.getSession({

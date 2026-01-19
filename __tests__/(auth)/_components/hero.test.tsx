@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
-import Hero from '@/modules/auth/components/hero';
+import Hero from '@/app/(auth)/_components/hero';
 
 // Mock react-icons
 jest.mock('react-icons/fa', () => ({

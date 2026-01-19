@@ -3,7 +3,7 @@ import {
   updateDeltaTokenById,
 } from '@/lib/repository/mail-account';
 import { AurinkoEmailClient } from '@/lib/clients/aurinko-email-client';
-import { syncEmails } from '@/modules/dashboard/service/sync-emails';
+import { syncEmails } from '@/lib/services/sync-emails';
 
 export async function performInitialSync(accountId: string, userId: string) {
   const mailAccount = await findEmailAccountById(accountId, userId);

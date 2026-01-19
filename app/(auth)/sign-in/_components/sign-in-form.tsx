@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 
@@ -10,7 +10,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 
-import Hero from '../components/hero';
+import Hero from '@/app/(auth)/_components/hero';
 import {
   Card,
   CardContent,
@@ -27,46 +27,40 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-import { signUp, signIn } from '@/lib/auth/auth-client';
+import { signIn } from '@/lib/auth/auth-client';
 
-const formSchema = z
-  .object({
-    name: z.string().min(1, { message: 'Name is required' }),
-    email: z.email(),
-    password: z
-      .string()
-      .min(8, { message: 'Password must be at least 8 characters' })
-      .max(16, { message: 'Password can be at most 16 characters' }),
-    confirmPassword: z.string().min(1, { message: 'Confirm your password' }),
-  })
-  .refine(data => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: 'Passwords do not match',
-  });
+const formSchema = z.object({
+  email: z.email(),
+  password: z
+    .string()
+    .min(8, { message: 'Password must be at least 8 characters' })
+    .max(16, { message: 'Password can be at most 16 characters' }),
+});
 
-const SignUp = () => {
+const SignIn = () => {
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
       email: '',
       password: '',
-      confirmPassword: '',
     },
   });
+
+  const handleGoogleSignIn = useCallback(async () => {
+    await signIn.social({ provider: 'google' });
+  }, []);
+
+  const handleGithubSignIn = useCallback(async () => {
+    await signIn.social({ provider: 'github' });
+  }, []);
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsPending(true);
     try {
-      await signUp.email({
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      });
-      setIsPending(false);
+      await signIn.email({ email: data.email, password: data.password });
       router.push('/dashboard');
     } catch (err) {
       const msg =
@@ -77,8 +71,10 @@ const SignUp = () => {
       else if (/password/i.test(msg))
         form.setError('password', { message: 'Invalid password' });
       else form.setError('password', { message: 'Invalid email or password' });
+    } finally {
+      setIsPending(false);
     }
-  };
+  }
 
   return (
     <>
@@ -96,44 +92,23 @@ const SignUp = () => {
                 <h1 className="text-lg">Welcome</h1>
               </div>
             </CardTitle>
-            <CardDescription>Sign up to start using Luma Mail.</CardDescription>
+            <CardDescription>Sign in to your account</CardDescription>
           </CardHeader>
           <CardContent>
-            <form id="sign-up-form" onSubmit={form.handleSubmit(onSubmit)}>
+            <form id="sign-in-form" onSubmit={form.handleSubmit(onSubmit)}>
               <div className="flex flex-col gap-3">
                 <FieldGroup>
-                  <Controller
-                    name="name"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                      <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor="sign-up-form-name">
-                          Name
-                        </FieldLabel>
-                        <Input
-                          {...field}
-                          id="sign-up-form-name"
-                          aria-invalid={fieldState.invalid}
-                          placeholder="John Doe"
-                          autoComplete="off"
-                        />
-                        {fieldState.invalid && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
                   <Controller
                     name="email"
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor="sign-up-form-email">
+                        <FieldLabel htmlFor="sign-in-form-email">
                           Email
                         </FieldLabel>
                         <Input
                           {...field}
-                          id="sign-up-form-email"
+                          id="sign-in-form-email"
                           aria-invalid={fieldState.invalid}
                           placeholder="abc@email.com"
                           autoComplete="off"
@@ -149,33 +124,12 @@ const SignUp = () => {
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor="sign-up-form-pwd">
+                        <FieldLabel htmlFor="sign-in-form-pwd">
                           Password
                         </FieldLabel>
                         <Input
                           {...field}
-                          id="sign-up-form-pwd"
-                          aria-invalid={fieldState.invalid}
-                          placeholder="********"
-                          autoComplete="off"
-                        />
-                        {fieldState.invalid && (
-                          <FieldError errors={[fieldState.error]} />
-                        )}
-                      </Field>
-                    )}
-                  />
-                  <Controller
-                    name="confirmPassword"
-                    control={form.control}
-                    render={({ field, fieldState }) => (
-                      <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel htmlFor="sign-up-form-confirm-pwd">
-                          Confirm Password
-                        </FieldLabel>
-                        <Input
-                          {...field}
-                          id="sign-up-form-confirm-pwd"
+                          id="sign-in-form-pwd"
                           aria-invalid={fieldState.invalid}
                           placeholder="********"
                           autoComplete="off"
@@ -188,7 +142,7 @@ const SignUp = () => {
                   />
                 </FieldGroup>
                 <FieldGroup>
-                  <Button type="submit" form="sign-up-form">
+                  <Button type="submit" form="sign-in-form">
                     Submit
                   </Button>
                 </FieldGroup>
@@ -206,9 +160,7 @@ const SignUp = () => {
                   <div className="grid grid-cols-2 gap-2 sm:gap-3">
                     <Button
                       disabled={isPending}
-                      onClick={async () =>
-                        await signIn.social({ provider: 'google' })
-                      }
+                      onClick={handleGoogleSignIn}
                       type="button"
                     >
                       <FaGoogle className="mr-1 sm:mr-2 text-xs sm:text-sm" />
@@ -216,9 +168,7 @@ const SignUp = () => {
                     </Button>
                     <Button
                       disabled={isPending}
-                      onClick={async () =>
-                        await signIn.social({ provider: 'github' })
-                      }
+                      onClick={handleGithubSignIn}
                       type="button"
                     >
                       <FaGithub className="mr-1 sm:mr-2 text-xs sm:text-sm" />
@@ -227,12 +177,12 @@ const SignUp = () => {
                   </div>
                 </FieldGroup>
                 <div className="text-center text-sm text-gray-600">
-                  Already have an account?{' '}
+                  Don&apos;t have an account?{' '}
                   <Link
-                    href="/sign-in"
+                    href="/sign-up"
                     className="text-blue-700 font-medium underline-offset-4 hover:underline hover:text-blue-500"
                   >
-                    Sign In
+                    Sign Up
                   </Link>
                 </div>
               </div>
@@ -245,4 +195,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;

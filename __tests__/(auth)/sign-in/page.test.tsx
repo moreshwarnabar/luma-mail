@@ -43,7 +43,7 @@ jest.mock('next/link', () => {
 });
 
 // Mock Hero component
-jest.mock('@/modules/auth/components/hero', () => {
+jest.mock('@/app/(auth)/_components/hero', () => {
   return function MockHero() {
     return <div data-testid="hero-component">Hero</div>;
   };
