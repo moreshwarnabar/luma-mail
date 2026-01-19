@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
-import { ThemeProvider } from 'next-themes';
+import ThemeProviderClient from './theme-provider';
 
 import './globals.css';
 
@@ -22,14 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${montserrat.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProviderClient>
           {children}
-        </ThemeProvider>
+        </ThemeProviderClient>
       </body>
     </html>
   );
