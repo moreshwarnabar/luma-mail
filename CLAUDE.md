@@ -71,3 +71,11 @@ Required in `.env.local`:
 - `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` - Auth configuration
 - `GITHUB_CLIENT_ID/SECRET`, `GOOGLE_CLIENT_ID/SECRET` - OAuth providers
 - `AURINKO_CLIENT_ID/SECRET` - Email integration
+
+## Agent Usage
+
+Use the `coding-advisor` agent proactively (without being asked) when:
+- User asks "how should I...", "what's the best way to...", "explain..."
+- Questions about architecture, design patterns, or trade-offs
+- User wants to understand concepts before implementation
+- Discussion is about structure/approach, not "write this code"
