@@ -60,5 +60,8 @@ export async function GET(req: NextRequest) {
       })
   );
 
-  return NextResponse.redirect(new URL('/dashboard', req.url));
+  const dashboardUrl = new URL(`/dashboard/${accountId}/INBOX`, req.url);
+  dashboardUrl.searchParams.set('page', '1');
+
+  return NextResponse.redirect(dashboardUrl);
 }

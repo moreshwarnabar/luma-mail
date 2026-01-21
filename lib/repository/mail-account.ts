@@ -73,3 +73,19 @@ export async function updateDeltaTokenById(
     throw err;
   }
 }
+
+export async function findAllMailAccountsByUserId(
+  userId: string
+): Promise<MailAccount[]> {
+  try {
+    const response = await db
+      .select()
+      .from(mailAccount)
+      .where(eq(mailAccount.userId, userId));
+
+    return response;
+  } catch (err) {
+    console.error('Unable to fetch mail accounts for user-id', err);
+    throw err;
+  }
+}
