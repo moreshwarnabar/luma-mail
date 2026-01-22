@@ -11,6 +11,6 @@ export default async function Home() {
   const accounts = await findAllMailAccountsByUserId(session.user.id);
   if (!accounts[0]) redirect('/dashboard');
 
-  const dashboardUrl = `/dashboard/${accounts[0].id}/INBOX?page=1`;
+  const dashboardUrl = `/dashboard/${accounts[0].id}/inbox?page=1`;
   redirect(dashboardUrl);
 }

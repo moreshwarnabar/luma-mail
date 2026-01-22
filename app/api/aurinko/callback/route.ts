@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
       })
   );
 
-  const dashboardUrl = new URL(`/dashboard/${accountId}/INBOX`, req.url);
+  const dashboardUrl = new URL(`/dashboard/${accountId}/inbox`, req.url);
   dashboardUrl.searchParams.set('page', '1');
 
   return NextResponse.redirect(dashboardUrl);

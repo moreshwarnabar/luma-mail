@@ -13,7 +13,7 @@ const Dashboard = async () => {
 
   const accountId = await findDefaultMailAccountIdByUserId(session.user.id);
 
-  redirect(`dashboard/${accountId}/INBOX`);
+  redirect(`dashboard/${accountId}/inbox?page=1`);
 };
 
 export default Dashboard;
