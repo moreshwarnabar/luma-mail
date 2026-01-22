@@ -1,0 +1,1 @@
+ALTER TABLE "mail_account" ADD COLUMN "is_default" boolean;

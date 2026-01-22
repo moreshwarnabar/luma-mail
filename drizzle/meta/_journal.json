@@ -71,6 +71,13 @@
       "when": 1768345051816,
       "tag": "0009_stale_mister_sinister",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1769110410924,
+      "tag": "0010_add-is-default-to-mail-account",
+      "breakpoints": true
     }
   ]
 }
