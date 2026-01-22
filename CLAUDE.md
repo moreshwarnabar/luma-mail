@@ -27,6 +27,7 @@ Luma Mail is an AI-powered email client built with Next.js 16 App Router and Rea
 ### Dashboard Structure
 
 The dashboard uses a 3-column resizable layout (`react-resizable-panels` v2.1.7):
+
 - Sidebar (16%): Account selector, folders, compose button
 - Email List (26%): Search, filters, thread list
 - Email Detail (58%): Email content and actions
@@ -44,12 +45,16 @@ Dashboard components live in `app/dashboard/_components/`.
 ### Commit Messages
 
 Follow conventional commits format:
+
 ```
 <type>(<scope>): <description>
 ```
+
 Types: `feat`, `fix`, `build`, `chore`, `ci`, `docs`, `style`, `refactor`, `perf`, `test`, `revert`
 
 Examples: `feat(dashboard): add sidebar`, `fix(auth): handle token refresh`
+
+Do NOT add "Co-Authored-By" lines to commit messages.
 
 ### Component Patterns
 
@@ -67,6 +72,7 @@ Examples: `feat(dashboard): add sidebar`, `fix(auth): handle token refresh`
 ## Environment Variables
 
 Required in `.env.local`:
+
 - `DATABASE_URL` - Neon PostgreSQL connection string
 - `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` - Auth configuration
 - `GITHUB_CLIENT_ID/SECRET`, `GOOGLE_CLIENT_ID/SECRET` - OAuth providers
@@ -75,6 +81,7 @@ Required in `.env.local`:
 ## Agent Usage
 
 Use the `coding-advisor` agent proactively (without being asked) when:
+
 - User asks "how should I...", "what's the best way to...", "explain..."
 - Questions about architecture, design patterns, or trade-offs
 - User wants to understand concepts before implementation
