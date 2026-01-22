@@ -19,6 +19,7 @@ export async function saveThread(newThread: Thread) {
     return response[0].threadId;
   } catch (err) {
     console.error('Error while saving thread', err);
+    throw err;
   }
 }
 
