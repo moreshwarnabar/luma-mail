@@ -5,9 +5,10 @@ export interface MailAccount {
   accessToken: string;
   emailAddress: string;
   name: string | null;
+  linkedAt: Date;
 }
 
-export type NewMailAccount = Omit<MailAccount, 'id'>;
+export type NewMailAccount = Omit<MailAccount, 'id' | 'linkedAt'>;
 
 export interface Thread {
   id: string;

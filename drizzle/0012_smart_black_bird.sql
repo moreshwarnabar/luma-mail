@@ -1,0 +1,1 @@
+ALTER TABLE "mail_account" RENAME COLUMN "updated_at" TO "linked_at";

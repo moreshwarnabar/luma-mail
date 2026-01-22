@@ -78,6 +78,20 @@
       "when": 1769110410924,
       "tag": "0010_add-is-default-to-mail-account",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1769121549728,
+      "tag": "0011_funny_marauders",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1769122223185,
+      "tag": "0012_smart_black_bird",
+      "breakpoints": true
     }
   ]
 }

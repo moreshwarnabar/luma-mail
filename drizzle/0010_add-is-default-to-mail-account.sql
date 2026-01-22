@@ -1,1 +1,1 @@
-ALTER TABLE "mail_account" ADD COLUMN "is_default" boolean;
+ALTER TABLE "mail_account" ADD COLUMN IF NOT EXISTS "is_default" boolean;

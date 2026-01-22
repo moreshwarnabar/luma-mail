@@ -1,7 +1,7 @@
 import { db } from '@/db';
 import { mailAccount } from '@/db/schema';
 import { MailAccount, NewMailAccount } from '../types/entities';
-import { and, desc, eq } from 'drizzle-orm';
+import { and, asc, eq } from 'drizzle-orm';
 
 export async function createMailAccount(
   account: NewMailAccount
@@ -98,7 +98,7 @@ export async function findDefaultMailAccountIdByUserId(
       .select({ accountId: mailAccount.id })
       .from(mailAccount)
       .where(eq(mailAccount.userId, userId))
-      .orderBy(desc(mailAccount.isDefault))
+      .orderBy(asc(mailAccount.linkedAt))
       .limit(1);
 
     if (!rows[0])

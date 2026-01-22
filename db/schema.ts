@@ -116,8 +116,10 @@ export const mailAccount = pgTable('mail_account', {
   name: text('name'),
 
   updatedDeltaToken: text('updated_delta_token'),
-
-  isDefault: boolean('is_default'),
+  linkedAt: timestamp('linked_at')
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
 });
 
 export const emailAddress = pgTable(
