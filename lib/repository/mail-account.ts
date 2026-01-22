@@ -1,7 +1,7 @@
 import { db } from '@/db';
 import { mailAccount } from '@/db/schema';
 import { MailAccount, NewMailAccount } from '../types/entities';
-import { and, eq } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 
 export async function createMailAccount(
   account: NewMailAccount
@@ -86,6 +86,29 @@ export async function findAllMailAccountsByUserId(
     return response;
   } catch (err) {
     console.error('Unable to fetch mail accounts for user-id', err);
+    throw err;
+  }
+}
+
+export async function findDefaultMailAccountIdByUserId(
+  userId: string
+): Promise<string> {
+  try {
+    const rows = await db
+      .select({ accountId: mailAccount.id })
+      .from(mailAccount)
+      .where(eq(mailAccount.userId, userId))
+      .orderBy(desc(mailAccount.isDefault))
+      .limit(1);
+
+    if (!rows[0])
+      throw new Error(
+        'No accounts linked for current user. Please link an email account.'
+      );
+
+    return rows[0].accountId;
+  } catch (err) {
+    console.error('Unable to fetch the default mail account', err);
     throw err;
   }
 }

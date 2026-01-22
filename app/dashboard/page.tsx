@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import { auth } from '@/lib/auth/auth';
-import DashboardShell from './_components/dashboard-shell';
+import { findDefaultMailAccountIdByUserId } from '@/lib/repository/mail-account';
 
 const Dashboard = async () => {
   const session = await auth.api.getSession({
@@ -11,7 +11,9 @@ const Dashboard = async () => {
 
   if (!session) redirect('/sign-in');
 
-  return <DashboardShell />;
+  const accountId = await findDefaultMailAccountIdByUserId(session.user.id);
+
+  redirect(`dashboard/${accountId}/INBOX`);
 };
 
 export default Dashboard;
