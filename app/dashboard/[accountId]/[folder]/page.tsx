@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth/auth';
 import DashboardShell from '../../_components/dashboard-shell';
 import { findAllMailAccountsByUserId } from '@/lib/repository/mail-account';
+import { findAllThreadsByMailAccountIdAndSysClassifications } from '@/lib/repository/thread';
 
 interface DashboardProps {
   params: Promise<{ accountId: string; folder: string }>;
@@ -20,6 +21,10 @@ const Dashboard = async ({ params, searchParams }: DashboardProps) => {
   const { filter, page } = await searchParams;
 
   const accounts = await findAllMailAccountsByUserId(session.user.id);
+  const threads = await findAllThreadsByMailAccountIdAndSysClassifications(
+    accountId,
+    ['personal', 'updates']
+  );
 
   return <DashboardShell />;
 };

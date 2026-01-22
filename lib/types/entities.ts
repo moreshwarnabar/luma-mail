@@ -12,6 +12,8 @@ export type NewMailAccount = Omit<MailAccount, 'id'>;
 export interface Thread {
   id: string;
   mailAccountId: string;
-  subject: string;
-  lastMessageDate: Date;
+  subject: string | null;
+  lastMessageDate: Date | null;
 }
+
+export type ThreadListItem = Omit<Thread, 'mailAccountId'>;
