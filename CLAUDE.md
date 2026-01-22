@@ -78,6 +78,15 @@ Required in `.env.local`:
 - `GITHUB_CLIENT_ID/SECRET`, `GOOGLE_CLIENT_ID/SECRET` - OAuth providers
 - `AURINKO_CLIENT_ID/SECRET` - Email integration
 
+## Session Persistence
+
+When asked to load plans or todos from a previous session:
+
+- **Plan files**: `.claude/plans/<plan-name>.md` - Implementation plans for features
+- **Todo file**: `.claude/TODO.md` - Current task list from last session
+
+Always read these files rather than creating new todos from scratch.
+
 ## Agent Usage
 
 Use the `coding-advisor` agent proactively (without being asked) when:
