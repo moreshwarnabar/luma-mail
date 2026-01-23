@@ -26,7 +26,7 @@ const Dashboard = async ({ params, searchParams }: DashboardProps) => {
     ['personal', 'updates']
   );
 
-  return <DashboardShell />;
+  return <DashboardShell accounts={accounts} threads={threads} />;
 };
 
 export default Dashboard;

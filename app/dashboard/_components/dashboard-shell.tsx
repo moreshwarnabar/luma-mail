@@ -9,8 +9,14 @@ import {
 import Sidebar from './sidebar/sidebar';
 import EmailList from './email-list/email-list';
 import EmailDetail from './email-detail/email-detail';
+import { MailAccount, ThreadListItem } from '@/lib/types/entities';
 
-const DashboardShell = () => {
+interface DashboardShellProps {
+  accounts: MailAccount[];
+  threads: ThreadListItem[];
+}
+
+const DashboardShell = ({ accounts, threads }: DashboardShellProps) => {
   return (
     <ResizablePanelGroup direction="horizontal" className="h-screen">
       <ResizablePanel defaultSize={16} minSize={15} maxSize={20}>
