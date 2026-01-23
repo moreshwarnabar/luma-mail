@@ -92,7 +92,7 @@ export async function findAllMailAccountsByUserId(
 
 export async function findDefaultMailAccountIdByUserId(
   userId: string
-): Promise<string> {
+): Promise<string | null> {
   try {
     const rows = await db
       .select({ accountId: mailAccount.id })
@@ -101,10 +101,10 @@ export async function findDefaultMailAccountIdByUserId(
       .orderBy(asc(mailAccount.linkedAt))
       .limit(1);
 
-    if (!rows[0])
-      throw new Error(
-        'No accounts linked for current user. Please link an email account.'
-      );
+    if (!rows[0]) return null;
+    // throw new Error(
+    //   'No accounts linked for current user. Please link an email account.'
+    // );
 
     return rows[0].accountId;
   } catch (err) {
