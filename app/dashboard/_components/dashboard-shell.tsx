@@ -20,7 +20,7 @@ const DashboardShell = ({ accounts, threads }: DashboardShellProps) => {
   return (
     <ResizablePanelGroup direction="horizontal" className="h-screen">
       <ResizablePanel defaultSize={16} minSize={15} maxSize={20}>
-        <Sidebar />
+        <Sidebar accounts={accounts} />
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={26} minSize={20} maxSize={35}>

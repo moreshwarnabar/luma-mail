@@ -122,7 +122,7 @@
   --chart-4: var(--warning);
   --chart-5: var(--purple);
 
-  --sidebar: var(--cool-white);
+  --sidebar: var(--light-gray);
   --sidebar-foreground: var(--near-black);
   --sidebar-primary: var(--vivid-orange);
   --sidebar-primary-foreground: var(--white);
@@ -153,7 +153,7 @@
   --muted: var(--dark-border);
   --muted-foreground: var(--dark-muted);
 
-  --accent: oklch(0.25 0.04 260);
+  --accent: var(--blue-tint);
   --accent-foreground: var(--light-blue);
 
   --destructive: var(--error-light);
@@ -184,5 +184,12 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .dropdown-content-width-full {
+    width: var(--radix-dropdown-menu-trigger-width);
+    max-height: var(--radix-dropdown-menu-content-available-height);
   }
 }
