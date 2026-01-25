@@ -1,3 +1,5 @@
+import { sysLabelEnum } from '@/db/schema';
+
 export interface MailAccount {
   id: string;
   userId: string;
@@ -18,3 +20,27 @@ export interface Thread {
 }
 
 export type ThreadListItem = Omit<Thread, 'mailAccountId'>;
+
+export type SysLabel = (typeof sysLabelEnum.enumValues)[number];
+
+export interface FolderCounts {
+  inboxTotal: number;
+  inboxUnread: number;
+  importantTotal: number;
+  importantUnread: number;
+  junkTotal: number;
+  junkUnread: number;
+  trashTotal: number;
+  trashUnread: number;
+  sentTotal: number;
+  sentUnread: number;
+  draftTotal: number;
+}
+
+export interface Folder {
+  key: number;
+  total: number;
+  unread?: number;
+}
+
+export type FolderInfo = Partial<Record<SysLabel, Folder>>;
