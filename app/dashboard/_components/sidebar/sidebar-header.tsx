@@ -11,7 +11,11 @@ const SidebarHeader = () => {
         <h2 className="text-xl font-semibold">Luma Mail</h2>
       </div>
       <div>
-        <Button size="icon-lg" variant="outline">
+        <Button
+          size="icon-lg"
+          variant="secondary"
+          className="hover:cursor-pointer"
+        >
           <IoMenu />
         </Button>
       </div>

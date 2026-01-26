@@ -20,7 +20,7 @@ interface AccountSelectorProps {
 }
 
 const AccountSelector = ({ accounts }: AccountSelectorProps) => {
-  const { accountId, folder } = useParams();
+  const { accountId } = useParams();
 
   const selectedAccount = accounts.find(acc => acc.id === accountId);
   if (!selectedAccount) throw new Error('Account ID not present');
@@ -33,7 +33,7 @@ const AccountSelector = ({ accounts }: AccountSelectorProps) => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="h-14 flex justify-around">
-            <div className="p-1 rounded-full bg-accent">
+            <div className="p-1 rounded-full bg-accent text-accent-foreground border border-accent-foreground">
               {selectedAccount.name
                 ? selectedAccount.name
                     .split(' ')
@@ -66,11 +66,14 @@ const AccountSelector = ({ accounts }: AccountSelectorProps) => {
         </DropdownMenuContent>
       </DropdownMenu>
       <div className="flex gap-2">
-        <Button variant="secondary" className="flex-1">
+        <Button variant="secondary" className="flex-1 hover:cursor-pointer">
           <MdAdd color="green" />
           Add
         </Button>
-        <Button variant="secondary" className="flex-1 text-destructive">
+        <Button
+          variant="secondary"
+          className="flex-1 text-destructive cursor-pointer"
+        >
           <MdDelete />
           Remove
         </Button>
