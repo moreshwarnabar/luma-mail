@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import {
   FaArrowRight,
@@ -12,10 +13,14 @@ import { RiSpam2Fill } from 'react-icons/ri';
 
 import { useDashboard } from '@/hooks/use-dashboard';
 import { FolderInfo, MailAccount } from '@/lib/types/entities';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import CollapsedSidebarButton from './collapsed-sidebar-button';
-import Image from 'next/image';
-import MailAccountAvatar from './mail-account-avatar';
+import MailAccountDropdown from './mail-account-dropdown';
 
 interface CollapsedSidebarProps {
   accounts: MailAccount[];
@@ -28,14 +33,6 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
 
   const selectedAccount = accounts.find(acc => acc.id === accountId);
   if (!selectedAccount) throw new Error('Account ID not present');
-
-  const avatarFallback = selectedAccount.name
-    ? selectedAccount.name
-        .split(' ')
-        .filter(Boolean)
-        .map(word => word[0])
-        .join('')
-    : '@';
 
   const expandBtnInfo = {
     variant: 'secondary' as const,
@@ -50,14 +47,6 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
     icon: <IoMdCreate className="size-5" />,
     content: 'Compose',
     classes: '',
-  };
-  const mailAccBtnInfo = {
-    variant: 'outline' as const,
-    onClick: () => console.log('clicked mail account'),
-    icon: <MailAccountAvatar fallback={avatarFallback} />,
-    content: selectedAccount.name || selectedAccount.emailAddress,
-    classes:
-      'p-1 rounded-full bg-accent text-accent-foreground border border-accent-foreground',
   };
   const folderBtns = [
     {
@@ -149,7 +138,14 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
 
       <div className="border border-border w-full px-1" />
       <CollapsedSidebarButton info={composeBtnInfo} />
-      <CollapsedSidebarButton info={mailAccBtnInfo} />
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div>
+            <MailAccountDropdown accounts={accounts} />
+          </div>
+        </TooltipTrigger>
+        <TooltipContent side="right">{selectedAccount?.name}</TooltipContent>
+      </Tooltip>
       <div className="border border-border w-full px-1" />
 
       {folderBtns.map(btnInfo => (
