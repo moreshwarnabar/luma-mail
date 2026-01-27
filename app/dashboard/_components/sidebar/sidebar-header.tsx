@@ -8,7 +8,7 @@ const SidebarHeader = () => {
   const { toggleSidebar } = useDashboard();
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="px-2 flex justify-between items-center">
       <div className="flex items-center gap-3">
         <Image src="/luma-mail-logo.svg" alt="logo" width={48} height={48} />
         <h2 className="text-xl font-semibold">Luma Mail</h2>

@@ -22,6 +22,7 @@ import {
 import CollapsedSidebarButton from './collapsed-sidebar-button';
 import MailAccountDropdown from './mail-account-dropdown';
 import Link from 'next/link';
+import UserProfile from './user-profile';
 
 interface CollapsedSidebarProps {
   accounts: MailAccount[];
@@ -163,6 +164,8 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
           <CollapsedSidebarButton info={btnInfo} />
         </Link>
       ))}
+
+      <UserProfile />
     </div>
   );
 };
