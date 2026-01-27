@@ -1,5 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import React from 'react';
 
 interface FolderItemProps {
@@ -17,8 +19,11 @@ const FolderItem = ({
   total,
   unread,
 }: FolderItemProps) => {
+  const { accountId } = useParams();
+
   return (
-    <div
+    <Link
+      href={`/dashboard/${accountId}/${name}?page=1`}
       className={cn(
         'px-4 py-3 flex justify-between rounded-xs hover:cursor-pointer',
         isSelected
@@ -33,7 +38,7 @@ const FolderItem = ({
       <Badge variant={isSelected ? 'default' : 'secondary'}>
         {unread || total}
       </Badge>
-    </div>
+    </Link>
   );
 };
 

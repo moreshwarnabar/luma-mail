@@ -20,6 +20,7 @@ interface CollapsedSidebarButtonProps {
     icon: React.ReactNode;
     content: string;
     classes: string;
+    name?: string;
   };
 }
 

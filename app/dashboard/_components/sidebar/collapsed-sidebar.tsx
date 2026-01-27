@@ -21,6 +21,7 @@ import {
 
 import CollapsedSidebarButton from './collapsed-sidebar-button';
 import MailAccountDropdown from './mail-account-dropdown';
+import Link from 'next/link';
 
 interface CollapsedSidebarProps {
   accounts: MailAccount[];
@@ -61,6 +62,7 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
         folder === 'inbox'
           ? 'bg-sidebar-accent text-sidebar-accent-foreground'
           : '',
+      name: 'inbox',
     },
     {
       variant: 'ghost' as const,
@@ -74,6 +76,7 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
         folder === 'important'
           ? 'bg-sidebar-accent text-sidebar-accent-foreground'
           : '',
+      name: 'important',
     },
     {
       variant: 'ghost' as const,
@@ -87,6 +90,7 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
         folder === 'sent'
           ? 'bg-sidebar-accent text-sidebar-accent-foreground'
           : '',
+      name: 'sent',
     },
     {
       variant: 'ghost' as const,
@@ -100,6 +104,7 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
         folder === 'draft'
           ? 'bg-sidebar-accent text-sidebar-accent-foreground'
           : '',
+      name: 'draft',
     },
     {
       variant: 'ghost' as const,
@@ -113,6 +118,7 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
         folder === 'junk'
           ? 'bg-sidebar-accent text-sidebar-accent-foreground'
           : '',
+      name: 'junk',
     },
     {
       variant: 'ghost' as const,
@@ -126,6 +132,7 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
         folder === 'trash'
           ? 'bg-sidebar-accent text-sidebar-accent-foreground'
           : '',
+      name: 'trash',
     },
   ];
 
@@ -149,7 +156,12 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
       <div className="border border-border w-full px-1" />
 
       {folderBtns.map(btnInfo => (
-        <CollapsedSidebarButton key={btnInfo.content} info={btnInfo} />
+        <Link
+          key={btnInfo.name}
+          href={`/dashboard/${accountId}/${btnInfo.name}?page=1`}
+        >
+          <CollapsedSidebarButton info={btnInfo} />
+        </Link>
       ))}
     </div>
   );
