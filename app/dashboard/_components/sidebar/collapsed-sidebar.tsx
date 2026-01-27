@@ -15,6 +15,7 @@ import { FolderInfo, MailAccount } from '@/lib/types/entities';
 
 import CollapsedSidebarButton from './collapsed-sidebar-button';
 import Image from 'next/image';
+import MailAccountAvatar from './mail-account-avatar';
 
 interface CollapsedSidebarProps {
   accounts: MailAccount[];
@@ -27,6 +28,14 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
 
   const selectedAccount = accounts.find(acc => acc.id === accountId);
   if (!selectedAccount) throw new Error('Account ID not present');
+
+  const avatarFallback = selectedAccount.name
+    ? selectedAccount.name
+        .split(' ')
+        .filter(Boolean)
+        .map(word => word[0])
+        .join('')
+    : '@';
 
   const expandBtnInfo = {
     variant: 'secondary' as const,
@@ -45,17 +54,7 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
   const mailAccBtnInfo = {
     variant: 'outline' as const,
     onClick: () => console.log('clicked mail account'),
-    icon: (
-      <>
-        {selectedAccount.name
-          ? selectedAccount.name
-              .split(' ')
-              .filter(Boolean)
-              .map(word => word[0])
-              .join('')
-          : ''}
-      </>
-    ),
+    icon: <MailAccountAvatar fallback={avatarFallback} />,
     content: selectedAccount.name || selectedAccount.emailAddress,
     classes:
       'p-1 rounded-full bg-accent text-accent-foreground border border-accent-foreground',

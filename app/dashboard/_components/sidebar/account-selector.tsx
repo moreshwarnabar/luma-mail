@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { MailAccount } from '@/lib/types/entities';
+import MailAccountAvatar from './mail-account-avatar';
 
 interface AccountSelectorProps {
   accounts: MailAccount[];
@@ -25,6 +26,14 @@ const AccountSelector = ({ accounts }: AccountSelectorProps) => {
   const selectedAccount = accounts.find(acc => acc.id === accountId);
   if (!selectedAccount) throw new Error('Account ID not present');
 
+  const avatarFallback = selectedAccount.name
+    ? selectedAccount.name
+        .split(' ')
+        .filter(Boolean)
+        .map(word => word[0])
+        .join('')
+    : '@';
+
   return (
     <div className="mt-2 px-1 flex flex-col gap-2">
       <div>
@@ -32,23 +41,17 @@ const AccountSelector = ({ accounts }: AccountSelectorProps) => {
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="h-14 flex justify-around">
-            <div className="p-1 rounded-full bg-accent text-accent-foreground border border-accent-foreground">
-              {selectedAccount.name
-                ? selectedAccount.name
-                    .split(' ')
-                    .filter(Boolean)
-                    .map(word => word[0])
-                    .join('')
-                : ''}
+          <Button variant="outline" className="h-14 has-[>svg]:px-1.5">
+            <div className="flex gap-2 items-center max-w-4/5 overflow-clip">
+              <MailAccountAvatar fallback={avatarFallback} />
+              <div className="flex flex-col gap-1 items-start text-xs">
+                <p className="font-semibold">{selectedAccount.emailAddress}</p>
+                <p className="font-extralight text-muted-foreground">
+                  {selectedAccount.name}
+                </p>
+              </div>
             </div>
-            <div className="flex flex-col gap-1 items-start text-xs">
-              <p className="font-semibold">{selectedAccount.emailAddress}</p>
-              <p className="font-extralight text-muted-foreground">
-                {selectedAccount.name}
-              </p>
-            </div>
-            <ChevronDown />
+            <ChevronDown className="ml-auto" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
