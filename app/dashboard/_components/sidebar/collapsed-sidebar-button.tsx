@@ -31,6 +31,7 @@ const CollapsedSidebarButton = ({ info }: CollapsedSidebarButtonProps) => {
           size="icon-lg"
           variant={info.variant}
           className={cn('hover:cursor-pointer', info.classes)}
+          onClick={info.onClick}
         >
           {info.icon}
         </Button>

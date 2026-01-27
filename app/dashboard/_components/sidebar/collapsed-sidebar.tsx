@@ -10,20 +10,23 @@ import { IoMenu } from 'react-icons/io5';
 import { MdLabelImportant } from 'react-icons/md';
 import { RiSpam2Fill } from 'react-icons/ri';
 
-import { Button } from '@/components/ui/button';
 import { useDashboard } from '@/hooks/use-dashboard';
-import { cn } from '@/lib/utils';
-import { FolderInfo } from '@/lib/types/entities';
+import { FolderInfo, MailAccount } from '@/lib/types/entities';
 
 import CollapsedSidebarButton from './collapsed-sidebar-button';
+import Image from 'next/image';
 
 interface CollapsedSidebarProps {
+  accounts: MailAccount[];
   folderInfo: FolderInfo;
 }
 
-const CollapsedSidebar = ({ folderInfo }: CollapsedSidebarProps) => {
+const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
   const { toggleSidebar } = useDashboard();
-  const { folder } = useParams();
+  const { accountId, folder } = useParams();
+
+  const selectedAccount = accounts.find(acc => acc.id === accountId);
+  if (!selectedAccount) throw new Error('Account ID not present');
 
   const expandBtnInfo = {
     variant: 'secondary' as const,
@@ -37,9 +40,27 @@ const CollapsedSidebar = ({ folderInfo }: CollapsedSidebarProps) => {
     onClick: () => console.log('clicked compose'),
     icon: <IoMdCreate className="size-5" />,
     content: 'Compose',
-    classes: 'mb-3',
+    classes: '',
   };
-  const buttons = [
+  const mailAccBtnInfo = {
+    variant: 'outline' as const,
+    onClick: () => console.log('clicked mail account'),
+    icon: (
+      <>
+        {selectedAccount.name
+          ? selectedAccount.name
+              .split(' ')
+              .filter(Boolean)
+              .map(word => word[0])
+              .join('')
+          : ''}
+      </>
+    ),
+    content: selectedAccount.name || selectedAccount.emailAddress,
+    classes:
+      'p-1 rounded-full bg-accent text-accent-foreground border border-accent-foreground',
+  };
+  const folderBtns = [
     {
       variant: 'ghost' as const,
       onClick: () => console.log('clicked inbox'),
@@ -122,9 +143,17 @@ const CollapsedSidebar = ({ folderInfo }: CollapsedSidebarProps) => {
 
   return (
     <div className="h-screen bg-sidebar flex flex-col gap-3 items-center py-3 px-1">
+      <div>
+        <Image src="/luma-mail-logo.svg" alt="logo" width={36} height={36} />
+      </div>
       <CollapsedSidebarButton info={expandBtnInfo} />
+
+      <div className="border border-border w-full px-1" />
       <CollapsedSidebarButton info={composeBtnInfo} />
-      {buttons.map(btnInfo => (
+      <CollapsedSidebarButton info={mailAccBtnInfo} />
+      <div className="border border-border w-full px-1" />
+
+      {folderBtns.map(btnInfo => (
         <CollapsedSidebarButton key={btnInfo.content} info={btnInfo} />
       ))}
     </div>
