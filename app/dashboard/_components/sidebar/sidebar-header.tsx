@@ -1,9 +1,12 @@
 import Image from 'next/image';
 import { IoMenu } from 'react-icons/io5';
-import React from 'react';
+
 import { Button } from '@/components/ui/button';
+import { useDashboard } from '@/hooks/use-dashboard';
 
 const SidebarHeader = () => {
+  const { toggleSidebar } = useDashboard();
+
   return (
     <div className="flex justify-between items-center">
       <div className="flex items-center gap-3">
@@ -15,6 +18,7 @@ const SidebarHeader = () => {
           size="icon-lg"
           variant="secondary"
           className="hover:cursor-pointer"
+          onClick={toggleSidebar}
         >
           <IoMenu />
         </Button>

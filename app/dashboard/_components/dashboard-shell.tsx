@@ -1,5 +1,8 @@
 'use client';
 
+import { useRef } from 'react';
+import { ImperativePanelHandle } from 'react-resizable-panels';
+
 import {
   ResizableHandle,
   ResizablePanel,
@@ -10,6 +13,7 @@ import Sidebar from './sidebar/sidebar';
 import EmailList from './email-list/email-list';
 import EmailDetail from './email-detail/email-detail';
 import { FolderInfo, MailAccount, ThreadListItem } from '@/lib/types/entities';
+import { useDashboard } from '@/hooks/use-dashboard';
 
 interface DashboardShellProps {
   accounts: MailAccount[];
@@ -22,9 +26,24 @@ const DashboardShell = ({
   threads,
   folderInfo,
 }: DashboardShellProps) => {
+  const { sidebarRef, setIsSidebarCollapsed } = useDashboard();
+
   return (
-    <ResizablePanelGroup direction="horizontal" className="h-screen">
-      <ResizablePanel defaultSize={16} minSize={15} maxSize={20}>
+    <ResizablePanelGroup
+      direction="horizontal"
+      autoSaveId="dashboard-layout"
+      className="h-screen"
+    >
+      <ResizablePanel
+        ref={sidebarRef}
+        defaultSize={16}
+        minSize={15}
+        maxSize={20}
+        collapsible
+        collapsedSize={4}
+        onCollapse={() => setIsSidebarCollapsed(true)}
+        onExpand={() => setIsSidebarCollapsed(false)}
+      >
         <Sidebar accounts={accounts} folderInfo={folderInfo} />
       </ResizablePanel>
       <ResizableHandle withHandle />
