@@ -1,6 +1,5 @@
 'use client';
 
-import SidebarHeader from './sidebar-header';
 import ComposeButton from './compose-button';
 import AccountSelector from './account-selector';
 import { FolderInfo, MailAccount } from '@/lib/types/entities';

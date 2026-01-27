@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import {
   FaArrowRight,
@@ -7,11 +6,9 @@ import {
   FaTrashAlt,
 } from 'react-icons/fa';
 import { IoMdCreate } from 'react-icons/io';
-import { IoMenu } from 'react-icons/io5';
 import { MdLabelImportant } from 'react-icons/md';
 import { RiSpam2Fill } from 'react-icons/ri';
 
-import { useDashboard } from '@/hooks/use-dashboard';
 import { FolderInfo, MailAccount } from '@/lib/types/entities';
 import {
   Tooltip,
@@ -30,7 +27,6 @@ interface CollapsedSidebarProps {
 }
 
 const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
-  const { toggleSidebar } = useDashboard();
   const { accountId, folder } = useParams();
 
   const selectedAccount = accounts.find(acc => acc.id === accountId);
