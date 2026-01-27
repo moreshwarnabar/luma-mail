@@ -36,13 +36,6 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
   const selectedAccount = accounts.find(acc => acc.id === accountId);
   if (!selectedAccount) throw new Error('Account ID not present');
 
-  const expandBtnInfo = {
-    variant: 'secondary' as const,
-    onClick: () => toggleSidebar(),
-    icon: <IoMenu className="size-5" />,
-    content: 'Expand Sidebar',
-    classes: '',
-  };
   const composeBtnInfo = {
     variant: 'default' as const,
     onClick: () => console.log('clicked compose'),
@@ -139,12 +132,6 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
 
   return (
     <div className="h-screen bg-sidebar flex flex-col gap-3 items-center py-3 px-1">
-      <div>
-        <Image src="/luma-mail-logo.svg" alt="logo" width={36} height={36} />
-      </div>
-      <CollapsedSidebarButton info={expandBtnInfo} />
-
-      <div className="border border-border w-full px-1" />
       <CollapsedSidebarButton info={composeBtnInfo} />
       <Tooltip>
         <TooltipTrigger asChild>

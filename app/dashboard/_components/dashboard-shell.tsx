@@ -12,6 +12,7 @@ import EmailDetail from './email-detail/email-detail';
 import { FolderInfo, MailAccount, ThreadListItem } from '@/lib/types/entities';
 import { useDashboard } from '@/hooks/use-dashboard';
 import CollapsedSidebar from './sidebar/collapsed-sidebar';
+import DashboardHeader from './dashboard-header';
 
 interface DashboardShellProps {
   accounts: MailAccount[];
@@ -28,36 +29,39 @@ const DashboardShell = ({
     useDashboard();
 
   return (
-    <ResizablePanelGroup
-      direction="horizontal"
-      autoSaveId="dashboard-layout"
-      className="h-screen"
-    >
-      <ResizablePanel
-        ref={sidebarRef}
-        defaultSize={16}
-        minSize={15}
-        maxSize={20}
-        collapsible
-        collapsedSize={4}
-        onCollapse={() => setIsSidebarCollapsed(true)}
-        onExpand={() => setIsSidebarCollapsed(false)}
+    <div>
+      <DashboardHeader />
+      <ResizablePanelGroup
+        direction="horizontal"
+        autoSaveId="dashboard-layout"
+        className="h-screen"
       >
-        {isSidebarCollapsed ? (
-          <CollapsedSidebar accounts={accounts} folderInfo={folderInfo} />
-        ) : (
-          <Sidebar accounts={accounts} folderInfo={folderInfo} />
-        )}
-      </ResizablePanel>
-      <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={26} minSize={20} maxSize={35}>
-        <EmailList />
-      </ResizablePanel>
-      <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={58}>
-        <EmailDetail />
-      </ResizablePanel>
-    </ResizablePanelGroup>
+        <ResizablePanel
+          ref={sidebarRef}
+          defaultSize={20}
+          minSize={20}
+          maxSize={20}
+          collapsible
+          collapsedSize={5}
+          onCollapse={() => setIsSidebarCollapsed(true)}
+          onExpand={() => setIsSidebarCollapsed(false)}
+        >
+          {isSidebarCollapsed ? (
+            <CollapsedSidebar accounts={accounts} folderInfo={folderInfo} />
+          ) : (
+            <Sidebar accounts={accounts} folderInfo={folderInfo} />
+          )}
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={26} minSize={20} maxSize={35}>
+          <EmailList />
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={58}>
+          <EmailDetail />
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    </div>
   );
 };
 

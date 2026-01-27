@@ -13,18 +13,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import UserProfileAvatar from './user-profile-avatar';
 
-import { useDashboard } from '@/hooks/use-dashboard';
-import { signOut, useSession } from '@/lib/auth/auth-client';
+import { signOut } from '@/lib/auth/auth-client';
 
 const UserProfile = () => {
   const { theme, setTheme } = useTheme();
-  const { data: session, isPending } = useSession();
-  const { isSidebarCollapsed } = useDashboard();
   const router = useRouter();
-
-  // TODO: Handle this more gracefully
-  if (isPending || !session) return null;
-  const { user } = session;
 
   const logoutUser = () => {
     signOut();

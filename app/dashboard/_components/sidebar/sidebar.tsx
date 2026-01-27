@@ -14,14 +14,11 @@ interface SidebarProps {
 
 const Sidebar = ({ accounts, folderInfo }: SidebarProps) => {
   return (
-    <div className="h-screen bg-sidebar text-sidebar-foreground flex flex-col gap-3">
-      <SidebarHeader />
-      <div className="px-2 flex flex-col gap-2">
-        <ComposeButton />
-        <AccountSelector accounts={accounts} />
-        <div className="border-t border-border mx-2 my-1" />
-        <FolderList folderInfo={folderInfo} />
-      </div>
+    <div className="h-screen bg-sidebar text-sidebar-foreground flex flex-col gap-3 px-2 pt-3">
+      <ComposeButton />
+      <AccountSelector accounts={accounts} />
+      <div className="border-t border-border mx-2 my-1" />
+      <FolderList folderInfo={folderInfo} />
       <UserProfile />
     </div>
   );
