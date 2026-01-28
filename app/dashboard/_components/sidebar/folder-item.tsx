@@ -25,9 +25,9 @@ const FolderItem = ({
     <Link
       href={`/dashboard/${accountId}/${name}?page=1`}
       className={cn(
-        'px-4 py-3 flex justify-between rounded-xs hover:cursor-pointer',
+        'px-4 py-3 flex justify-between rounded-xs hover:cursor-pointer hover:bg-secondary',
         isSelected
-          ? 'pl-3 border-l-4 border-l-primary bg-sidebar-accent text-sidebar-accent-foreground'
+          ? 'pl-3 border-l-4 border-l-primary bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent'
           : ''
       )}
     >

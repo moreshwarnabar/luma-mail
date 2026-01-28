@@ -13,7 +13,6 @@ import { FolderInfo, MailAccount, ThreadListItem } from '@/lib/types/entities';
 import { useDashboard } from '@/hooks/use-dashboard';
 import CollapsedSidebar from './sidebar/collapsed-sidebar';
 import DashboardHeader from './dashboard-header';
-import { useEffect, useState } from 'react';
 
 interface DashboardShellProps {
   accounts: MailAccount[];
@@ -26,13 +25,8 @@ const DashboardShell = ({
   threads,
   folderInfo,
 }: DashboardShellProps) => {
-  const [hydrated, setHydrated] = useState<boolean>(false);
   const { sidebarRef, isSidebarCollapsed, setIsSidebarCollapsed } =
     useDashboard();
-
-  useEffect(() => {
-    setHydrated(true);
-  }, []);
 
   return (
     <div className="h-screen flex flex-col">
@@ -40,7 +34,7 @@ const DashboardShell = ({
       <div className="flex-1 min-h-0 overflow-hidden">
         <ResizablePanelGroup
           direction="horizontal"
-          autoSaveId={hydrated ? 'dashboard-layout' : undefined}
+          autoSaveId="dashboard-layout"
           className="h-full"
         >
           <ResizablePanel

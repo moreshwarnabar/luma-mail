@@ -22,11 +22,16 @@ const UserProfileAvatar = forwardRef<HTMLButtonElement>((props, ref) => {
 
   if (isSidebarCollapsed)
     return (
-      <Button ref={ref} {...props} variant="outline" className="mt-auto h-fit">
+      <Button
+        ref={ref}
+        {...props}
+        variant="outline"
+        className="mt-auto h-fit bg-transparent hover:cursor-pointer"
+      >
         <div className="relative mt-auto">
           <Avatar className="">
             <AvatarImage src={user.image ?? ''} />
-            <AvatarFallback className="bg-accent text-accent-foreground">
+            <AvatarFallback className="bg-accent text-accent-foreground hover:cursor-pointer">
               {user.name
                 .split(' ')
                 .filter(Boolean)
@@ -48,7 +53,7 @@ const UserProfileAvatar = forwardRef<HTMLButtonElement>((props, ref) => {
       ref={ref}
       {...props}
       variant="outline"
-      className="mt-auto h-fit rounded-none justify-normal gap-4 hover:cursor-pointer"
+      className="mt-auto h-fit rounded-none justify-normal gap-4 bg-sidebar hover:cursor-pointer"
     >
       <div className="relative mt-auto">
         <Avatar className="">

@@ -17,7 +17,7 @@ const DashboardHeader = () => {
   const { toggleSidebar } = useDashboard();
 
   return (
-    <div className="shrink-0 flex gap-4 shadow-md">
+    <div className="shrink-0 flex gap-4 shadow-md bg-sidebar">
       <div className="px-2 flex gap-2 items-center">
         <Tooltip>
           <TooltipTrigger asChild>

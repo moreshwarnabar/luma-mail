@@ -122,7 +122,7 @@
   --chart-4: var(--warning);
   --chart-5: var(--purple);
 
-  --sidebar: var(--light-gray);
+  --sidebar: var(--cool-white);
   --sidebar-foreground: var(--near-black);
   --sidebar-primary: var(--vivid-orange);
   --sidebar-primary-foreground: var(--white);

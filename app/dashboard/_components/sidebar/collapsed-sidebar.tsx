@@ -50,8 +50,8 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
           : 'Inbox',
       classes:
         folder === 'inbox'
-          ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-          : '',
+          ? 'bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent dark:hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+          : 'hover:text-sidebar-foreground',
       name: 'inbox',
     },
     {
@@ -64,8 +64,8 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
           : 'Important',
       classes:
         folder === 'important'
-          ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-          : '',
+          ? 'bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent dark:hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+          : 'hover:text-sidebar-foreground',
       name: 'important',
     },
     {
@@ -78,8 +78,8 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
           : 'Sent',
       classes:
         folder === 'sent'
-          ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-          : '',
+          ? 'bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent dark:hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+          : 'hover:text-sidebar-foreground',
       name: 'sent',
     },
     {
@@ -92,8 +92,8 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
           : 'Draft',
       classes:
         folder === 'draft'
-          ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-          : '',
+          ? 'bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent dark:hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+          : 'hover:text-sidebar-foreground',
       name: 'draft',
     },
     {
@@ -106,8 +106,8 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
           : 'Junk',
       classes:
         folder === 'junk'
-          ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-          : '',
+          ? 'bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent dark:hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+          : 'hover:text-sidebar-foreground',
       name: 'junk',
     },
     {
@@ -120,8 +120,8 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
           : 'Trash',
       classes:
         folder === 'trash'
-          ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-          : '',
+          ? 'bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent dark:hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+          : 'hover:text-sidebar-foreground',
       name: 'trash',
     },
   ];
