@@ -127,7 +127,7 @@ const CollapsedSidebar = ({ accounts, folderInfo }: CollapsedSidebarProps) => {
   ];
 
   return (
-    <div className="h-screen bg-sidebar flex flex-col gap-3 items-center py-3 px-1">
+    <div className="h-full bg-sidebar flex flex-col gap-3 items-center pt-3 px-1">
       <CollapsedSidebarButton info={composeBtnInfo} />
       <Tooltip>
         <TooltipTrigger asChild>

@@ -17,7 +17,7 @@ const DashboardHeader = () => {
   const { toggleSidebar } = useDashboard();
 
   return (
-    <div className="flex gap-4 shadow-md">
+    <div className="shrink-0 flex gap-4 shadow-md">
       <div className="px-2 flex gap-2 items-center">
         <Tooltip>
           <TooltipTrigger asChild>
@@ -44,7 +44,10 @@ const DashboardHeader = () => {
             'focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]'
           )}
         >
-          <Input className="border-0 shadow-none focus-visible:ring-0" />
+          <Input
+            name="search"
+            className="border-0 shadow-none focus-visible:ring-0"
+          />
           <Button variant="outline" size="icon" className="rounded-full">
             <Search />
           </Button>

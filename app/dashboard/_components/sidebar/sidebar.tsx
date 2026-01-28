@@ -13,11 +13,13 @@ interface SidebarProps {
 
 const Sidebar = ({ accounts, folderInfo }: SidebarProps) => {
   return (
-    <div className="h-screen bg-sidebar text-sidebar-foreground flex flex-col gap-3 px-2 pt-3">
-      <ComposeButton />
-      <AccountSelector accounts={accounts} />
-      <div className="border-t border-border mx-2 my-1" />
-      <FolderList folderInfo={folderInfo} />
+    <div className="h-full bg-sidebar text-sidebar-foreground flex flex-col gap-3 pt-3">
+      <div className="flex flex-col gap-3 px-2">
+        <ComposeButton />
+        <AccountSelector accounts={accounts} />
+        <div className="border-t border-border mx-2 my-1" />
+        <FolderList folderInfo={folderInfo} />
+      </div>
       <UserProfile />
     </div>
   );

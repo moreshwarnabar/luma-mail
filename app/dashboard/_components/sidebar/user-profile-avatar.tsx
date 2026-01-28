@@ -22,22 +22,24 @@ const UserProfileAvatar = forwardRef<HTMLButtonElement>((props, ref) => {
 
   if (isSidebarCollapsed)
     return (
-      <Button ref={ref} {...props} variant="outline" className="mt-auto">
-        <Avatar className="overflow-visible mt-auto cursor-pointer">
-          <AvatarImage src={user.image ?? ''} />
-          <AvatarFallback className="bg-primary text-primary-foreground">
-            {user.name
-              .split(' ')
-              .filter(Boolean)
-              .map(word => word[0])
-              .join('')}
-          </AvatarFallback>
+      <Button ref={ref} {...props} variant="outline" className="mt-auto h-fit">
+        <div className="relative mt-auto">
+          <Avatar className="">
+            <AvatarImage src={user.image ?? ''} />
+            <AvatarFallback className="bg-accent text-accent-foreground">
+              {user.name
+                .split(' ')
+                .filter(Boolean)
+                .map(word => word[0])
+                .join('')}
+            </AvatarFallback>
+          </Avatar>
           {user.emailVerified && (
-            <AvatarBadge className="bg-chart-3">
+            <AvatarBadge className="bg-chart-3 absolute -bottom-1 -right-2 z-10">
               <BadgeCheck />
             </AvatarBadge>
           )}
-        </Avatar>
+        </div>
       </Button>
     );
 
