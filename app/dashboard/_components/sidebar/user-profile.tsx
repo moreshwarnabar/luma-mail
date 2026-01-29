@@ -14,6 +14,7 @@ import {
 import UserProfileAvatar from './user-profile-avatar';
 
 import { signOut } from '@/lib/auth/auth-client';
+import UserSettings from './user-settings';
 
 const UserProfile = () => {
   const { theme, setTheme } = useTheme();
@@ -30,9 +31,8 @@ const UserProfile = () => {
         <UserProfileAvatar />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" side="top" align="start">
-        <DropdownMenuItem>
-          <Settings />
-          Settings
+        <DropdownMenuItem asChild>
+          <UserSettings />
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
