@@ -2,16 +2,14 @@ import Image from 'next/image';
 import { IoMenu } from 'react-icons/io5';
 
 import { Button } from '@/components/ui/button';
-
-import { useDashboard } from '@/hooks/use-dashboard';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
-import { cn } from '@/lib/utils';
+
+import { useDashboard } from '@/hooks/use-dashboard';
+import EmailSearch from './email-list/email-search';
 
 const DashboardHeader = () => {
   const { toggleSidebar } = useDashboard();
@@ -38,20 +36,7 @@ const DashboardHeader = () => {
         </div>
       </div>
       <div className="ml-auto mr-4 w-1/2 py-1">
-        <div
-          className={cn(
-            'px-0.5 py-0.5 flex items-center border border-input rounded-full',
-            'focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]'
-          )}
-        >
-          <Input
-            name="search"
-            className="border-0 shadow-none focus-visible:ring-0"
-          />
-          <Button variant="outline" size="icon" className="rounded-full">
-            <Search />
-          </Button>
-        </div>
+        <EmailSearch />
       </div>
     </div>
   );
