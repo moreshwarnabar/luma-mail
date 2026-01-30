@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const EmailDetail = () => {
-  return (
-    <div>EmailDetail</div>
-  )
-}
+  return <div className="h-full bg-card">EmailDetail</div>;
+};
 
-export default EmailDetail
+export default EmailDetail;

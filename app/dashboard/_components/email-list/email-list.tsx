@@ -1,5 +1,6 @@
 import { ThreadListItem } from '@/lib/types/entities';
 import EmailListItem from './email-list-item';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface EmailListProps {
   threads: ThreadListItem[];
@@ -7,11 +8,11 @@ interface EmailListProps {
 
 const EmailList = ({ threads }: EmailListProps) => {
   return (
-    <div className="h-full bg-card overflow-y-scroll">
+    <ScrollArea className="h-full bg-card">
       {threads.map(t => (
         <EmailListItem key={t.id} thread={t} />
       ))}
-    </div>
+    </ScrollArea>
   );
 };
 
