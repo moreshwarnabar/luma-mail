@@ -55,7 +55,7 @@ const DashboardShell = ({
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={26} minSize={20} maxSize={35}>
-            <EmailList />
+            <EmailList threads={threads} />
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={58}>

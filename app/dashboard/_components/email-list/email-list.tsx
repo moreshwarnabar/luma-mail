@@ -1,9 +1,18 @@
-import React from 'react'
+import { ThreadListItem } from '@/lib/types/entities';
+import EmailListItem from './email-list-item';
 
-const EmailList = () => {
-  return (
-    <div>EmailList</div>
-  )
+interface EmailListProps {
+  threads: ThreadListItem[];
 }
 
-export default EmailList
+const EmailList = ({ threads }: EmailListProps) => {
+  return (
+    <div className="h-full bg-card overflow-y-scroll">
+      {threads.map(t => (
+        <EmailListItem key={t.id} thread={t} />
+      ))}
+    </div>
+  );
+};
+
+export default EmailList;

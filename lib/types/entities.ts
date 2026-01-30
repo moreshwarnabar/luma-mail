@@ -19,7 +19,25 @@ export interface Thread {
   lastMessageDate: Date | null;
 }
 
-export type ThreadListItem = Omit<Thread, 'mailAccountId'>;
+export interface ThreadListItem {
+  id: string;
+  subject: string | null;
+  lastMessageDate: Date | null;
+  sysLabels: Array<
+    | 'junk'
+    | 'trash'
+    | 'sent'
+    | 'inbox'
+    | 'unread'
+    | 'flagged'
+    | 'important'
+    | 'draft'
+  >;
+  bodySnippet: string;
+  hasAttachments: boolean;
+  fromName: string;
+  fromAddress: string;
+}
 
 export type SysLabel = (typeof sysLabelEnum.enumValues)[number];
 

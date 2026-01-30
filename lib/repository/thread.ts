@@ -5,7 +5,7 @@ import {
   Thread,
   ThreadListItem,
 } from '../types/entities';
-import { email, thread } from '@/db/schema';
+import { email, emailAddress, thread } from '@/db/schema';
 import { and, arrayOverlaps, desc, eq, sql } from 'drizzle-orm';
 
 export async function saveThread(newThread: Thread) {
@@ -33,24 +33,42 @@ export async function findAllThreadsByMailAccountIdAndFolder(
   folder: SysLabel
 ): Promise<ThreadListItem[]> {
   try {
-    const rows = await db
-      .selectDistinct({
-        id: thread.id,
-        subject: thread.subject,
-        lastMessageDate: thread.lastMessageDate,
-      })
-      .from(thread)
-      .innerJoin(email, eq(thread.id, email.threadId))
-      .where(
-        and(
-          eq(thread.mailAccountId, accountId),
-          arrayOverlaps(email.sysLabels, [folder])
-        )
-      )
-      .groupBy(thread.id)
-      .orderBy(desc(thread.lastMessageDate));
+    // const rows = await db
+    //   .selectDistinct({
+    //     id: thread.id,
+    //     subject: thread.subject,
+    //     lastMessageDate: thread.lastMessageDate,
+    //   })
+    //   .from(thread)
+    //   .innerJoin(email, eq(thread.id, email.threadId))
+    //   .where(
+    //     and(
+    //       eq(thread.mailAccountId, accountId),
+    //       arrayOverlaps(email.sysLabels, [folder])
+    //     )
+    //   )
+    //   .groupBy(thread.id)
+    //   .orderBy(desc(thread.lastMessageDate));
 
-    return rows;
+    const result = await db.execute(sql`
+      SELECT DISTINCT ON (t.id)
+        t.id,
+        t.subject,
+        t.last_message_date AS "lastMessageDate",
+        e.sys_labels AS "sysLabels",
+        e.body_snippet AS "bodySnippet",
+        e.has_attachments AS "hasAttachments",
+        ea.name AS "fromName",
+        ea.address AS "fromAddress"
+      FROM thread t
+      INNER JOIN email e ON t.id = e.thread_id
+      INNER JOIN email_address ea ON e.from = ea.id
+      WHERE t.mail_account_id = ${accountId}
+        AND ${folder} = ANY(e.sys_labels)
+      ORDER BY t.id, e.sent_at DESC
+      `);
+
+    return result.rows as unknown as ThreadListItem[];
   } catch (err) {
     console.error('Unable to fetch threads.', err);
     throw err;
