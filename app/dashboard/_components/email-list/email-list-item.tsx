@@ -20,11 +20,11 @@ const EmailListItem = ({ thread }: EmailListItemProps) => {
             {formatEmailDate(thread.lastMessageDate)}
           </span>
         </div>
-        <p className="font-semibold  whitespace-nowrap overflow-clip">
+        <p className="pr-4 font-semibold whitespace-nowrap overflow-hidden">
           {thread.subject}
         </p>
       </div>
-      <p className="text-sm text-muted-foreground whitespace-nowrap overflow-clip">
+      <p className="pr-4 text-sm text-muted-foreground whitespace-nowrap overflow-hidden">
         {thread.bodySnippet}
       </p>
     </div>
