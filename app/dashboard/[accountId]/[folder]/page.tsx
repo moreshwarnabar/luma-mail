@@ -33,7 +33,7 @@ const Dashboard = async ({ params, searchParams }: DashboardProps) => {
 
   const [accounts, threads, folderCounts] = await Promise.all([
     findAllMailAccountsByUserId(session.user.id),
-    findAllThreadsByMailAccountIdAndFolder(accountId, folder),
+    findAllThreadsByMailAccountIdAndFolder(accountId, folder, filter),
     findThreadCountsByFolder(accountId),
   ]);
 

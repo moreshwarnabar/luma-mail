@@ -1,6 +1,7 @@
 import { db } from '@/db';
 import { EmailMessage } from '../types/aurinko';
 import { email, emailBcc, emailCc, emailReplyTo, emailTo } from '@/db/schema';
+import { eq } from 'drizzle-orm';
 
 export async function saveEmailMessage(
   emailMsg: EmailMessage,
@@ -130,5 +131,20 @@ export async function saveEmailMessage(
     return emailId;
   } catch (err) {
     console.error('Error while saving email message', err);
+  }
+}
+
+export async function findEmailsByThreadId(threadId: string) {
+  try {
+    const response = await db
+      .select()
+      .from(email)
+      .where(eq(email.threadId, threadId))
+      .groupBy(email.threadId);
+
+    return response;
+  } catch (err) {
+    console.error('Unable to fetch emails by thread-id', err);
+    throw err;
   }
 }

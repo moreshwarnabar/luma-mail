@@ -30,25 +30,14 @@ export async function saveThread(newThread: Thread) {
 
 export async function findAllThreadsByMailAccountIdAndFolder(
   accountId: string,
-  folder: SysLabel
+  folder: SysLabel,
+  filter?: string
 ): Promise<ThreadListItem[]> {
   try {
-    // const rows = await db
-    //   .selectDistinct({
-    //     id: thread.id,
-    //     subject: thread.subject,
-    //     lastMessageDate: thread.lastMessageDate,
-    //   })
-    //   .from(thread)
-    //   .innerJoin(email, eq(thread.id, email.threadId))
-    //   .where(
-    //     and(
-    //       eq(thread.mailAccountId, accountId),
-    //       arrayOverlaps(email.sysLabels, [folder])
-    //     )
-    //   )
-    //   .groupBy(thread.id)
-    //   .orderBy(desc(thread.lastMessageDate));
+    const applyFilter = folder === 'inbox' && !!filter;
+    const filterCondition = applyFilter
+      ? sql`AND ${filter} = ANY(e.sys_classifications)`
+      : sql``;
 
     const result = await db.execute(sql`
       SELECT DISTINCT ON (t.id)
@@ -65,6 +54,7 @@ export async function findAllThreadsByMailAccountIdAndFolder(
       INNER JOIN email_address ea ON e.from = ea.id
       WHERE t.mail_account_id = ${accountId}
         AND ${folder} = ANY(e.sys_labels)
+        ${filterCondition}
       ORDER BY t.id, e.sent_at DESC
       `);
 
