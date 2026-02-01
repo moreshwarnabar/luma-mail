@@ -147,7 +147,7 @@
   --primary: var(--vivid-orange);
   --primary-foreground: var(--white);
 
-  --secondary: var(--dark-border);
+  --secondary: var(--dark-gray);
   --secondary-foreground: var(--light-gray);
 
   --muted: var(--dark-border);

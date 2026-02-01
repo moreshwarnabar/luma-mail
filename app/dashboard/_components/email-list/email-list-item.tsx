@@ -1,14 +1,26 @@
 import { ThreadListItem } from '@/lib/types/entities';
 import { cn } from '@/lib/utils';
 import { formatEmailDate } from '@/lib/utils/format-date';
+import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 interface EmailListItemProps {
   thread: ThreadListItem;
 }
 
 const EmailListItem = ({ thread }: EmailListItemProps) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const getLink = (id: string) => {
+    const urlParams = new URLSearchParams(searchParams);
+    urlParams.set('thread', id);
+
+    return `${pathname}?${urlParams.toString()}`;
+  };
+
   return (
-    <>
+    <Link href={getLink(thread.id)}>
       <div className="px-5 py-3 flex flex-col gap-1 hover:bg-muted">
         <div
           className={cn(
@@ -32,7 +44,7 @@ const EmailListItem = ({ thread }: EmailListItemProps) => {
         </p>
       </div>
       <div className="mx-4 border border-border" />
-    </>
+    </Link>
   );
 };
 

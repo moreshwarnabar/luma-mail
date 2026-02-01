@@ -56,7 +56,7 @@ const EmailList = ({ threads, count }: EmailListProps) => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="p-2 flex gap-2 bg-secondary">
+      <div className="p-2 flex gap-2 bg-card">
         {filterBtns.map(filterInfo => (
           <FilterButton key={filterInfo.name} {...filterInfo} />
         ))}
