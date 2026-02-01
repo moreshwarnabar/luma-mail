@@ -5,8 +5,8 @@ import {
   Thread,
   ThreadListItem,
 } from '../types/entities';
-import { email, emailAddress, thread } from '@/db/schema';
-import { and, arrayOverlaps, desc, eq, sql } from 'drizzle-orm';
+import { email, thread } from '@/db/schema';
+import { eq, sql } from 'drizzle-orm';
 
 export async function saveThread(newThread: Thread) {
   try {
@@ -31,6 +31,7 @@ export async function saveThread(newThread: Thread) {
 export async function findAllThreadsByMailAccountIdAndFolder(
   accountId: string,
   folder: SysLabel,
+  page: number,
   filter?: string
 ): Promise<ThreadListItem[]> {
   try {
@@ -40,7 +41,7 @@ export async function findAllThreadsByMailAccountIdAndFolder(
       : sql``;
 
     const result = await db.execute(sql`
-      SELECT DISTINCT ON (t.id)
+      SELECT
         t.id,
         t.subject,
         t.last_message_date AS "lastMessageDate",
@@ -51,11 +52,13 @@ export async function findAllThreadsByMailAccountIdAndFolder(
         ea.address AS "fromAddress"
       FROM thread t
       INNER JOIN email e ON t.id = e.thread_id
+      AND t.last_message_date = e.sent_at
       INNER JOIN email_address ea ON e.from = ea.id
       WHERE t.mail_account_id = ${accountId}
         AND ${folder} = ANY(e.sys_labels)
         ${filterCondition}
-      ORDER BY t.id, e.sent_at DESC
+      ORDER BY "lastMessageDate" DESC
+      LIMIT 25 OFFSET ${(page - 1) * 25}
       `);
 
     return result.rows as unknown as ThreadListItem[];
@@ -90,6 +93,29 @@ export async function findThreadCountsByFolder(
     return rows[0];
   } catch (err) {
     console.error('Unable to fetch counts of threads for each folder', err);
+    throw err;
+  }
+}
+
+export async function findThreadCountsByFilter(
+  accountId: string,
+  filter?: string
+): Promise<number> {
+  try {
+    const rows = await db
+      .select({
+        count: sql<number>`COUNT(DISTINCT CASE 
+          WHEN ${filter} = ANY(${email.sysClassifications}) 
+          THEN ${email.threadId} 
+        END)`,
+      })
+      .from(email)
+      .innerJoin(thread, eq(email.threadId, thread.id))
+      .where(eq(thread.mailAccountId, accountId));
+
+    return rows[0]?.count ?? 0;
+  } catch (err) {
+    console.error('Unable to fetch count of threads by filter', err);
     throw err;
   }
 }

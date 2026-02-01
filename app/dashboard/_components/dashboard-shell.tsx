@@ -18,12 +18,14 @@ interface DashboardShellProps {
   accounts: MailAccount[];
   threads: ThreadListItem[];
   folderInfo: FolderInfo;
+  count: number | undefined;
 }
 
 const DashboardShell = ({
   accounts,
   threads,
   folderInfo,
+  count,
 }: DashboardShellProps) => {
   const { sidebarRef, isSidebarCollapsed, setIsSidebarCollapsed } =
     useDashboard();
@@ -55,7 +57,7 @@ const DashboardShell = ({
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={26} minSize={20} maxSize={35}>
-            <EmailList threads={threads} />
+            <EmailList threads={threads} count={count} />
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={58}>

@@ -16,6 +16,7 @@ const FilterButton = ({ name, isSelected }: FilterButtonProps) => {
     const urlParams = new URLSearchParams(searchParams);
     if (name === 'all') urlParams.delete('filter');
     else urlParams.set('filter', name);
+    urlParams.set('page', '1');
 
     router.push(`${pathname}?${urlParams.toString()}`);
   };

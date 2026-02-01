@@ -6,6 +6,7 @@ import DashboardShell from '../../_components/dashboard-shell';
 import { findAllMailAccountsByUserId } from '@/lib/repository/mail-account';
 import {
   findAllThreadsByMailAccountIdAndFolder,
+  findThreadCountsByFilter,
   findThreadCountsByFolder,
 } from '@/lib/repository/thread';
 import { sysLabelEnum } from '@/db/schema';
@@ -27,15 +28,25 @@ const Dashboard = async ({ params, searchParams }: DashboardProps) => {
   };
 
   const { accountId, folder } = await params;
-  const { filter, page } = await searchParams;
+  const { filter } = await searchParams;
+  let { page } = await searchParams;
+  if (!page || isNaN(Number(page))) page = '1';
 
   if (!isSysLabel(folder)) throw new Error('Folder not found');
 
   const [accounts, threads, folderCounts] = await Promise.all([
     findAllMailAccountsByUserId(session.user.id),
-    findAllThreadsByMailAccountIdAndFolder(accountId, folder, filter),
+    findAllThreadsByMailAccountIdAndFolder(
+      accountId,
+      folder,
+      Number(page),
+      filter
+    ),
     findThreadCountsByFolder(accountId),
   ]);
+
+  let filterCount;
+  if (filter) filterCount = await findThreadCountsByFilter(accountId, filter);
 
   const folderInfo: FolderInfo = {};
 
@@ -60,6 +71,7 @@ const Dashboard = async ({ params, searchParams }: DashboardProps) => {
       accounts={accounts}
       threads={threads}
       folderInfo={folderInfo}
+      count={filterCount || folderInfo[folder]?.total}
     />
   );
 };
