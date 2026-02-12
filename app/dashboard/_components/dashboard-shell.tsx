@@ -13,12 +13,14 @@ import { FolderInfo, MailAccount, ThreadListItem } from '@/lib/types/entities';
 import { useDashboard } from '@/hooks/use-dashboard';
 import CollapsedSidebar from './sidebar/collapsed-sidebar';
 import DashboardHeader from './dashboard-header';
+import { EmailMessage } from '@/lib/types/aurinko';
 
 interface DashboardShellProps {
   accounts: MailAccount[];
   threads: ThreadListItem[];
   folderInfo: FolderInfo;
   count: number | undefined;
+  emails: EmailMessage[] | undefined;
 }
 
 const DashboardShell = ({
@@ -26,6 +28,7 @@ const DashboardShell = ({
   threads,
   folderInfo,
   count,
+  emails,
 }: DashboardShellProps) => {
   const { sidebarRef, isSidebarCollapsed, setIsSidebarCollapsed } =
     useDashboard();
@@ -61,7 +64,7 @@ const DashboardShell = ({
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={58}>
-            <EmailDetail />
+            <EmailDetail emails={emails} />
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>

@@ -14,7 +14,7 @@ const EmailListItem = ({ thread }: EmailListItemProps) => {
 
   const getLink = (id: string) => {
     const urlParams = new URLSearchParams(searchParams);
-    urlParams.set('thread', id);
+    urlParams.set('threadId', id);
 
     return `${pathname}?${urlParams.toString()}`;
   };

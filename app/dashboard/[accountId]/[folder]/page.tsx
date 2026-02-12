@@ -11,10 +11,11 @@ import {
 } from '@/lib/repository/thread';
 import { sysLabelEnum } from '@/db/schema';
 import { FolderInfo, SysLabel } from '@/lib/types/entities';
+import { findEmailsByThreadId } from '@/lib/repository/email-message';
 
 interface DashboardProps {
   params: Promise<{ accountId: string; folder: string }>;
-  searchParams: Promise<{ filter?: string; page?: string }>;
+  searchParams: Promise<{ filter?: string; page?: string; threadId: string }>;
 }
 
 const Dashboard = async ({ params, searchParams }: DashboardProps) => {
@@ -28,7 +29,7 @@ const Dashboard = async ({ params, searchParams }: DashboardProps) => {
   };
 
   const { accountId, folder } = await params;
-  const { filter } = await searchParams;
+  const { filter, threadId } = await searchParams;
   let { page } = await searchParams;
   if (!page || isNaN(Number(page))) page = '1';
 
@@ -47,6 +48,9 @@ const Dashboard = async ({ params, searchParams }: DashboardProps) => {
 
   let filterCount;
   if (filter) filterCount = await findThreadCountsByFilter(accountId, filter);
+
+  let emails;
+  if (threadId) emails = await findEmailsByThreadId(threadId);
 
   const folderInfo: FolderInfo = {};
 
@@ -72,6 +76,7 @@ const Dashboard = async ({ params, searchParams }: DashboardProps) => {
       threads={threads}
       folderInfo={folderInfo}
       count={filterCount || folderInfo[folder]?.total}
+      emails={emails}
     />
   );
 };
