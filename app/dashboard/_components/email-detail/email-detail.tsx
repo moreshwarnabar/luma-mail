@@ -40,7 +40,8 @@ const EmailDetail = ({ emails }: EmailDetailProps) => {
               {email.body ? (
                 <iframe
                   srcDoc={email.body}
-                  className="w-full border-0"
+                  className="w-full border-0 overflow-hidden"
+                  scrolling="no"
                   style={{ minHeight: '200px' }}
                   onLoad={(e) => {
                     const iframe = e.currentTarget;
