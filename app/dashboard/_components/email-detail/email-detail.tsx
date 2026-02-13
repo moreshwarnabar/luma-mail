@@ -26,14 +26,15 @@ const EmailDetail = ({ emails }: EmailDetailProps) => {
             <div className="pt-4">
               {email.body ? (
                 <iframe
-                  srcDoc={email.body}
+                  srcDoc={`<style>html, body { overflow: hidden; margin: 0; }</style>${email.body}`}
                   className="w-full border-0 overflow-hidden"
-                  scrolling="no"
                   style={{ minHeight: '200px' }}
-                  onLoad={(e) => {
+                  onLoad={e => {
                     const iframe = e.currentTarget;
                     if (iframe.contentDocument) {
-                      iframe.style.height = iframe.contentDocument.documentElement.scrollHeight + 'px';
+                      iframe.style.height =
+                        iframe.contentDocument.documentElement.scrollHeight +
+                        'px';
                     }
                   }}
                   sandbox="allow-same-origin"
